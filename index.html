@@ -1,0 +1,59 @@
+<!-- registro.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Registro e Inicio de Sesión</title>
+</head>
+<body>
+    <div class="form-container" id="registroForm">
+        <form>
+            <h2>Registrarse</h2>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" name="usuario" required>
+
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+
+    <!-- Formulario de inicio de sesión -->
+    <p>Si ya tienes un usuario, inicia sesión.</p>
+    <div class="form-container" id="loginForm">
+        <form>
+            <h2>Iniciar Sesión</h2>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" name="usuario" required>
+
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <div id="mensaje"></div>
+    </div>
+
+    <!-- Script para la lógica de registro -->
+    <script src="registro.js"></script>
+</body>
+</html>
+
+

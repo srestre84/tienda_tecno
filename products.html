@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="products.css">
+    <title>Lista de Productos</title>
+</head>
+<body>
+    <div id="productsContainer" class="product-container">
+        <!-- La lista de productos se mostrará aquí dinámicamente con JavaScript -->
+    </div>
+
+    <div class="form-container" id="registrarProductoForm">
+        <form>
+            <h2>Registrar Producto</h2>
+
+            <label for="nombre">Nombre del Producto:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="categoriaProducto">Categoría del Producto:</label>
+            <input type="text" id="categoria" name="categoria" required>
+
+            <button type="submit">Registrar Producto</button>
+        </form>
+    </div>
+
+    <script src="products.js"></script>
+</body>
+</html>
