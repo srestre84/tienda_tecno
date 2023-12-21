@@ -1,15 +1,20 @@
-/* styles.css */
+* styles.css */
+
+* {
+    margin: 5px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+    background-color: #DAF7A6;
 }
 
 .form-container {
     max-width: 400px;
     margin: 50px auto;
-    background-color: #fff;
+    background-color: #DAF7A6;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -27,13 +32,13 @@ label {
 input {
     padding: 10px;
     margin-bottom: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid #DAF7A6;
     border-radius: 4px;
 }
 
 button {
     padding: 10px;
-    background-color: #4caf50;
+    background-color: #145A32;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -41,7 +46,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #145A32;
 }
 
 #error-message {
