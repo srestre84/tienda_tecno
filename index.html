@@ -9,71 +9,67 @@
 </head>
 
 <body>
-<nav>
-    <div style="display: flex; align-items: center;">
-        <img src="imagenes/personas-generando-imagenes-usando-inteligencia-artificial-computadora-portatil.jpg" width="200px" height="200px" style="margin-right: 20px;" />
-        <div>
-            <h1>Tienda Tecno-Foro</h1>
-            <h5>¡Y comience a disfrutar de resolver y compartir sus soluciones con sus compañeros, compartir nos hará grandes!</h5>
+    <nav>
+        <div style="display: flex; align-items: center;">
+            <img src="imagenes/personas-generando-imagenes-usando-inteligencia-artificial-computadora-portatil.jpg" width="200px" height="200px" style="margin-right: 20px;" />
+            <div>
+                <h1>Tienda Tecno-Foro</h1>
+                <h5>¡Y comience a disfrutar de resolver y compartir sus soluciones con sus compañeros, compartir nos hará grandes!</h5>
+            </div>
         </div>
-    </div>
-    
-    
-    <hr />
-    <a href="index.html">Inicio</a>
-    ❘
-</nav>
-<section>
-    <h4> Registrese o inicie sesión según sea el caso</h4>
-    
-    <div class="form-container" id="registroForm">
-        <form>
-            <h2>Registrarse</h2>
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+        <hr />
+        <a href="index.html">Inicio</a>
+        ❘
+    </nav>
+    <section>
+        <h4> Registrese o inicie sesión según sea el caso</h4>
 
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" placeholder="Escribe tu usuario" required>
+        <div class="form-container" id="registroForm">
+            <form>
+                <h2>Registrarse</h2>
 
-            <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email"  placeholder="Escribe tu email" required >
+                <label for="nombreRegistro">Nombre:</label>
+                <input type="text" id="nombreRegistro" name="nombre" placeholder="Escribe tu nombre" required>
 
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" placeholder="Escribe tu contraseña"required>
+                <label for="usuarioRegistro">Usuario:</label>
+                <input type="text" id="usuarioRegistro" name="usuario" placeholder="Escribe tu usuario" required>
 
-            <button type="submit">Registrarse</button>
-        </form>
-    </div>
+                <label for="emailRegistro">Correo Electrónico:</label>
+                <input type="email" id="emailRegistro" name="email" placeholder="Escribe tu email" required>
 
-    <br> 
+                <label for="contrasenaRegistro">Contraseña:</label>
+                <input type="password" id="contrasenaRegistro" name="contrasena" placeholder="Escribe tu contraseña" required>
 
-    <div class="form-container" id="loginForm">
-        <form>
-            <h2>Iniciar Sesión</h2>
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+        <br>
 
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" placeholder="Escribe tu usuario" required>
+        <div class="form-container" id="loginForm">
+            <form>
+                <h2>Iniciar Sesión</h2>
 
-            <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" placeholder="Escribe tu email" required>
+                <label for="nombreLogin">Nombre:</label>
+                <input type="text" id="nombreLogin" name="nombre" placeholder="Escribe tu nombre" required>
 
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" placeholder="Escribe tu contraseña" required>
+                <label for="usuarioLogin">Usuario:</label>
+                <input type="text" id="usuarioLogin" name="usuario" placeholder="Escribe tu usuario" required>
 
-            <button type="submit">Iniciar Sesión</button>
-        </form>
-        <div id="mensaje"></div>
-    </div>
-</section>
-    
+                <label for="emailLogin">Correo Electrónico:</label>
+                <input type="email" id="emailLogin" name="email" placeholder="Escribe tu email" required>
+
+                <label for="contrasenaLogin">Contraseña:</label>
+                <input type="password" id="contrasenaLogin" name="contrasena" placeholder="Escribe tu contraseña" required>
+
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <div id="mensaje"></div>
+        </div>
+    </section>
+
     <script src="registro.js"></script>
 </body>
 
 </html>
-
-
-
