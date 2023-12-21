@@ -4,16 +4,16 @@ document.addEventListener('DOMContentLoaded', function () {
     //es que getElementById se utiliza para obtener una referencia al elemento principal
     // con el ID 'registroForm', y luego querySelector se utiliza para buscar un elemento form
     // específico dentro del respectivo formulario
-    let registroForm = document.getElementById('registroForm').querySelector('form');
-    let loginForm = document.getElementById('loginForm').querySelector('form');
-    let mensajeDiv = document.getElementById('mensaje');
+    var registroForm = document.getElementById('registroForm').querySelector('form');
+    var loginForm = document.getElementById('loginForm').querySelector('form');
+    var mensajeDiv = document.getElementById('mensaje');
 
     // Configuración de la URL del backend
-    let backendUrl = "http://localhost:8080";  // Reemplaza con la URL de tu backend en producción
+    var backendUrl = "http://localhost:8080";  // Reemplaza con la URL de tu backend en producción
 
     // Función para realizar el registro o la autenticación
     function realizarAccion(formData, endpoint) {
-        let apiUrl = `${backendUrl}/${endpoint}`;
+        var apiUrl = `${backendUrl}/${endpoint}`;
 
     //En conjunto, esta solicitud POST está siendo configurada para enviar datos al servidor en formato JSON, y la promesa resultante de fetch es la que se está devolviendo. 
     //La cadena JSON con los datos del formulario se enviará como parte del cuerpo de la solicitud.   
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         registroForm.addEventListener('submit', function (event) {
             event.preventDefault();
            
-            let formData = new FormData(registroForm);
+            var formData = new FormData(registroForm);
             realizarAccion(formData, 'usuarios');
         });
     }
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loginForm.addEventListener('submit', function (event) {
             event.preventDefault();
            
-            let formData = new FormData(loginForm);
+            var formData = new FormData(loginForm);
             realizarAccion(formData, 'login');
         });
     }
