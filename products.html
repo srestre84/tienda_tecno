@@ -3,28 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="products.css">
-    <title>Lista de Productos</title>
+    <title>Mostrar y Agregar Productos</title>
 </head>
 <body>
-    <div id="productsContainer" class="product-container">
-        <!-- La lista de productos se mostrará aquí dinámicamente con JavaScript -->
-    </div>
 
-    <div class="form-container" id="registrarProductoForm">
-        <form>
-            <h2>Registrar Producto</h2>
+<div id="productos-container"></div>
 
-            <label for="nombre">Nombre del Producto:</label>
-            <input type="text" id="nombre" name="nombre" required>
+<!-- Formulario para agregar nuevos productos -->
+<div>
+    <h2>Agregar Nuevo Producto</h2>
+    <form id="formulario-producto">
+        <label for="nombre">Nombre del Producto:</label>
+        <input type="text" id="nombre" name="nombre" required>
 
-            <label for="categoriaProducto">Categoría del Producto:</label>
-            <input type="text" id="categoria" name="categoria" required>
+        <label for="categoria">Categoría:</label>
+        <input type="text" id="categoria" name="categoria" required>
 
-            <button type="submit">Registrar Producto</button>
-        </form>
-    </div>
+        <button type="submit" disabled>Agregar Producto</button>
+    </form>
+</div>
 
-    <script src="products.js"></script>
+<script>
+async function obtenerProductosDesdeServidor() {
+    try {
+        const respuesta = await fetch('http://localhost:8080/productos'); // Reemplaza '/api/productos' con la ruta correcta de tu API
+        const productos = await respuesta.json();
+        return productos;
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+    }
+}
+
+async function mostrarProductosYCategorias() {
+    const container = document.getElementById('productos-container');
+    const productos = await obtenerProductosDesdeServidor();
+
+    container.innerHTML = ''; // Limpiar el contenedor antes de volver a mostrar
+
+    productos.forEach(producto => {
+        const productoElement = document.createElement('div');
+        productoElement.innerHTML = `<strong>${producto.nombre}</strong> - ${producto.categoria}`;
+        container.appendChild(productoElement);
+    });
+
+    // Habilitar el botón de agregar después de cargar los productos
+    document.getElementById('formulario-producto').elements['submit'].disabled = false;
+}
+
+async function agregarProducto(event) {
+    event.preventDefault();
+
+    const nombre = document.getElementById('nombre').value;
+    const categoria = document.getElementById('categoria').value;
+
+    try {
+        // Enviar datos al servidor para agregar el producto
+        await fetch('http://localhost:8080/productos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nombre, categoria }),
+        });
+
+        // Actualizar la lista de productos después de agregar uno nuevo
+        await mostrarProductosYCategorias();
+    } catch (error) {
+        console.error('Error al agregar producto:', error);
+    }
+}
+
+document.getElementById('formulario-producto').addEventListener('submit', agregarProducto);
+
+// Mostrar productos y categorías al cargar la página
+mostrarProductosYCategorias();
+</script>
+
 </body>
 </html>
+
+
