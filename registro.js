@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    var registroForm = document.getElementById('registroForm').querySelector('form');
-    var loginForm = document.getElementById('loginForm').querySelector('form');
+    var registroForm = document.getElementById('registroForm')?.querySelector('form');
+    var loginForm = document.getElementById('loginForm')?.querySelector('form');
     var mensajeDiv = document.getElementById('mensaje');
 
-    var backendUrl = "http://localhost:8080";  // Reemplaza con la URL de tu backend en producción
+    var backendUrl = "http://localhost:8080";  
 
     function realizarAccion(formData, endpoint) {
         var apiUrl = `${backendUrl}/${endpoint}`;
@@ -14,17 +14,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(Object.fromEntries(formData)),
-            credentials: 'include', // Agrega esto si estás utilizando credenciales
+            credentials: 'include', 
         })
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error en la solicitud al servidor. Estado: ${response.status}`);
             }
-            return response.json();
+         
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                return {}; 
+            }
         })
         .then(data => {
             console.log('Respuesta del servidor:', data);
-            window.location.href = 'products.html';
+       
+            mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
+            setTimeout(() => {
+                window.location.href = 'products.html';
+            }, 2000); 
         })
         .catch(error => {
             console.error('Error en la solicitud:', error);
@@ -48,4 +58,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
 
