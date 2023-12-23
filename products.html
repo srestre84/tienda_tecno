@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,7 +32,7 @@
         <label for="categoria">Categoría:</label>
         <input type="text" id="categoria" name="categoria" required>
 
-        <button type="submit" disabled>Agregar Producto</button>
+        <button type="submit" disabled="true">Agregar Producto</button>
     </form>
 </div>
 
@@ -88,7 +87,7 @@ async function mostrarProductosYCategorias() {
     }
 
     // Habilitar el botón de agregar después de cargar los productos
-    document.getElementById('formulario-producto').elements['submit'].disabled = false;
+    document.getElementById('formulario-producto').querySelector('button[type="submit"]').disabled = false;
 }
 
 async function agregarProducto(event) {
@@ -120,4 +119,5 @@ mostrarProductosYCategorias();
 
 </body>
 </html>
+
 
