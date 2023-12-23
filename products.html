@@ -1,16 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="products.css">
     <title>Mostrar y Agregar Productos</title>
+    <style>
+        /* Estilos adicionales */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 
-<div id="productos-container"></div>
-
-<!-- Formulario para agregar nuevos productos -->
+<!-- Contenedor para agregar un nuevo producto -->
 <div>
     <h2>Agregar Nuevo Producto</h2>
     <form id="formulario-producto">
@@ -24,10 +37,25 @@
     </form>
 </div>
 
+<!-- Contenedor para mostrar productos existentes en una tabla -->
+<div>
+    <h2>Productos Existenes</h2>
+    <p id="mensaje-categoria"></p>
+    <table id="tabla-productos">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+            </tr>
+        </thead>
+        <tbody id="productos-container"></tbody>
+    </table>
+</div>
+
 <script>
 async function obtenerProductosDesdeServidor() {
     try {
-        const respuesta = await fetch('http://localhost:8080/productos'); // Reemplaza '/api/productos' con la ruta correcta de tu API
+        const respuesta = await fetch('http://localhost:8080/productos');
         const productos = await respuesta.json();
         return productos;
     } catch (error) {
@@ -37,15 +65,27 @@ async function obtenerProductosDesdeServidor() {
 
 async function mostrarProductosYCategorias() {
     const container = document.getElementById('productos-container');
+    const mensajeCategoria = document.getElementById('mensaje-categoria');
     const productos = await obtenerProductosDesdeServidor();
 
-    container.innerHTML = ''; // Limpiar el contenedor antes de volver a mostrar
+    container.innerHTML = '';
+    mensajeCategoria.textContent = '';
+
+    const categoriasExistentes = new Set();
 
     productos.forEach(producto => {
-        const productoElement = document.createElement('div');
-        productoElement.innerHTML = `<strong>${producto.nombre}</strong> - ${producto.categoria}`;
+        const productoElement = document.createElement('tr');
+        productoElement.innerHTML = `<td>${producto.nombre}</td><td>${producto.categoria}</td>`;
         container.appendChild(productoElement);
+
+        // Agregar la categoría al conjunto de categorías existentes
+        categoriasExistentes.add(producto.categoria);
     });
+
+    // Mostrar mensaje sobre categorías existentes
+    if (categoriasExistentes.size > 0) {
+        mensajeCategoria.textContent = `No agregue categorías que ya existen: ${Array.from(categoriasExistentes).join(', ')}`;
+    }
 
     // Habilitar el botón de agregar después de cargar los productos
     document.getElementById('formulario-producto').elements['submit'].disabled = false;
@@ -58,7 +98,6 @@ async function agregarProducto(event) {
     const categoria = document.getElementById('categoria').value;
 
     try {
-        // Enviar datos al servidor para agregar el producto
         await fetch('http://localhost:8080/productos', {
             method: 'POST',
             headers: {
@@ -67,7 +106,6 @@ async function agregarProducto(event) {
             body: JSON.stringify({ nombre, categoria }),
         });
 
-        // Actualizar la lista de productos después de agregar uno nuevo
         await mostrarProductosYCategorias();
     } catch (error) {
         console.error('Error al agregar producto:', error);
@@ -82,5 +120,4 @@ mostrarProductosYCategorias();
 
 </body>
 </html>
-
 
