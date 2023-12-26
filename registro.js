@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(tokenDiv);
 
     function realizarAccion(formData, endpoint, includeToken = false) {
+        console.log('Realizando acción...'); // Línea de depuración
+
         var apiUrl = `${backendUrl}/${endpoint}`;
 
         var headers = {
@@ -83,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para agregar productos con el token incluido
     function agregarProducto(event) {
+        console.log('Intentando agregar producto...'); // Línea de depuración
         event.preventDefault();
 
         const nombre = document.getElementById('nombre').value;
@@ -97,3 +100,4 @@ document.addEventListener('DOMContentLoaded', () => {
         formularioProducto.addEventListener('submit', agregarProducto);
     }
 });
+
