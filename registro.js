@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log('Respuesta del servidor:', data);
 
-            // Almacenar el token en el almacenamiento local después del inicio de sesión
+            // Almacenar el token en el almacenamiento local después del inicio de sesión o registro
             if (data.token) {
                 localStorage.setItem("jwtToken", data.token);
             }
