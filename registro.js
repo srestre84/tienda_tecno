@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('#loginForm form');
     const mensajeDiv = document.getElementById('mensaje');
 
-    const backendUrl = "https://localhost:8080";
+    const backendUrl = "http://localhost:8080";
 
     function handleErrors(response) {
         if (!response.ok) {
