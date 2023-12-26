@@ -1,4 +1,3 @@
-<script>
 document.addEventListener('DOMContentLoaded', () => {
     var registroForm = document.getElementById('registroForm')?.querySelector('form');
     var loginForm = document.getElementById('loginForm')?.querySelector('form');
@@ -31,11 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             console.log('Respuesta del servidor:', data);
-
-            if (data && data.token) {
-                // Guardar el token JWT en el almacenamiento local (localStorage)
-                localStorage.setItem('jwtToken', data.token);
-            }
        
             mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
             setTimeout(() => {
@@ -64,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-</script>
 
-</body>
-</html>
+
+
