@@ -33,11 +33,7 @@
         <label for="categoria">Categoría:</label>
         <input type="text" id="categoria" name="categoria" required>
 
-        <!-- Eliminar campo de entrada para el token -->
-        <!-- <label for="token">Token:</label>
-        <input type="text" id="token" name="token" placeholder="Ingrese su token" required> -->
-
-        <button type="submit" disabled="true">Agregar Producto</button>
+        <button type="submit">Agregar Producto</button>
     </form>
 </div>
 
@@ -90,9 +86,6 @@ async function mostrarProductosYCategorias() {
     if (categoriasExistentes.size > 0) {
         mensajeCategoria.textContent = `No agregue categorías diferentes a las que ya existen ni productos. Categorías ya agregadas: ${Array.from(categoriasExistentes).join(', ')}`;
     }
-
-    // Habilitar el botón de agregar después de cargar los productos
-    document.getElementById('formulario-producto').querySelector('button[type="submit"]').disabled = false;
 }
 
 async function agregarProducto(event) {
