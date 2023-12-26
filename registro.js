@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var mensajeDiv = document.getElementById('mensaje');
 
     var backendUrl = "http://localhost:8080";
-    
+
     // Agrega el siguiente bloque de código para crear un elemento div en tu HTML
     var tokenDiv = document.createElement('div');
     tokenDiv.id = 'tokenDiv';
@@ -49,12 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log('Respuesta del servidor:', data);
 
-            // Mostrar el token si está presente en la respuesta
+            // Almacenar el token en el almacenamiento local después del inicio de sesión
             if (data.token) {
-                console.log('Token recibido:', data.token);
-
-                // Mostrar el token en el div
-                tokenDiv.textContent = `Token recibido: ${data.token}`;
+                localStorage.setItem("jwtToken", data.token);
             }
 
             mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
@@ -80,10 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', event => {
             event.preventDefault();
             var formData = new FormData(loginForm);
-            realizarAccion(formData, 'login').then(response => {
-                // Almacenar el token en el almacenamiento local después del inicio de sesión
-                localStorage.setItem("jwtToken", response.token);
-            });
+            realizarAccion(formData, 'login');
         });
     }
 
@@ -103,5 +97,3 @@ document.addEventListener('DOMContentLoaded', () => {
         formularioProducto.addEventListener('submit', agregarProducto);
     }
 });
-
-
