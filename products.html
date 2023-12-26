@@ -112,6 +112,7 @@ async function agregarProducto(event) {
                 'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({ nombre, categoria }),
+            credentials: 'include'
         });
 
         if (!respuesta.ok) {
