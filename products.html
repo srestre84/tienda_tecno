@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,6 +32,10 @@
 
         <label for="categoria">Categoría:</label>
         <input type="text" id="categoria" name="categoria" required>
+
+        <!-- Agregar campo de entrada para el token -->
+        <label for="token">Token:</label>
+        <input type="text" id="token" name="token" placeholder="Ingrese su token" required>
 
         <button type="submit" disabled="true">Agregar Producto</button>
     </form>
@@ -95,9 +100,9 @@ async function agregarProducto(event) {
 
     const nombre = document.getElementById('nombre').value;
     const categoria = document.getElementById('categoria').value;
+    const token = document.getElementById('token').value;
 
     try {
-        const token = localStorage.getItem("jwtToken");
         await fetch('http://localhost:8080/productos', {
             method: 'POST',
             headers: {
@@ -121,5 +126,3 @@ mostrarProductosYCategorias();
 
 </body>
 </html>
-
-
