@@ -55,7 +55,7 @@
 <script>
 async function obtenerProductosDesdeServidor() {
     try {
-        const respuesta = await fetch('http://localhost:8080/productos');
+        const respuesta = await fetch('https://localhost:8080/productos');
         if (!respuesta.ok) {
             throw new Error(`Error al obtener productos. Código de estado: ${respuesta.status}`);
         }
@@ -105,7 +105,7 @@ async function agregarProducto(event) {
     const token = localStorage.getItem('jwtToken');
 
     try {
-        const respuesta = await fetch('http://localhost:8080/productos', {
+        const respuesta = await fetch('https://localhost:8080/productos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
