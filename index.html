@@ -48,5 +48,94 @@
         <br>
 
         <div class="form-container" id="loginForm">
-            <
+            <form>
+                <h2>Iniciar Sesión</h2>
 
+                <label for="nombreLogin">Nombre:</label>
+                <input type="text" id="nombreLogin" name="nombre" placeholder="Escribe tu nombre" required>
+
+                <label for="usuarioLogin">Usuario:</label>
+                <input type="text" id="usuarioLogin" name="usuario" placeholder="Escribe tu usuario" required>
+
+                <label for="emailLogin">Correo Electrónico:</label>
+                <input type="email" id="emailLogin" name="email" placeholder="Escribe tu email" required>
+
+                <label for="contrasenaLogin">Contraseña:</label>
+                <input type="password" id="contrasenaLogin" name="contrasena" placeholder="Escribe tu contraseña" required>
+
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <div id="mensaje"></div>
+
+            <!-- Agregamos un div para mostrar el token -->
+            <div id="tokenDiv"></div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var loginForm = document.getElementById('loginForm')?.querySelector('form');
+            var mensajeDiv = document.getElementById('mensaje');
+
+            // Agrega el siguiente bloque de código para crear un elemento div en tu HTML
+            var tokenDiv = document.getElementById('tokenDiv');
+
+            function realizarAccion(formData, endpoint) {
+                var apiUrl = `http://localhost:8080/${endpoint}`;
+
+                var headers = {
+                    'Content-Type': 'application/json',
+                };
+
+                return fetch(apiUrl, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(Object.fromEntries(formData)),
+                    credentials: 'include',
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error en la solicitud al servidor. Estado: ${response.status}`);
+                    }
+
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        return response.json();
+                    } else {
+                        return {};
+                    }
+                })
+                .then(data => {
+                    console.log('Respuesta del servidor:', data);
+
+                    // Mostrar el token si está presente en la respuesta
+                    if (data.token) {
+                        console.log('Token recibido:', data.token);
+
+                        // Mostrar el token en el div
+                        tokenDiv.textContent = `Token recibido: ${data.token}`;
+                    }
+
+                    mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
+                    setTimeout(() => {
+                        window.location.href = 'products.html';
+                    }, 2000);
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud:', error);
+                    mensajeDiv.textContent = `Error en la conexión con el servidor. Detalles: ${error.message} (${endpoint}).`;
+                });
+            }
+
+            if (loginForm && mensajeDiv) {
+                loginForm.addEventListener('submit', event => {
+                    event.preventDefault();
+                    var formData = new FormData(loginForm);
+                    realizarAccion(formData, 'login');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
