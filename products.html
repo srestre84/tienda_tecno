@@ -54,7 +54,12 @@
 <script>
 async function obtenerProductosDesdeServidor() {
     try {
-        const respuesta = await fetch('http://localhost:8080/productos');
+        const token = localStorage.getItem("jwtToken");
+        const respuesta = await fetch('http://localhost:8080/productos', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
         const productos = await respuesta.json();
         return productos;
     } catch (error) {
@@ -83,7 +88,7 @@ async function mostrarProductosYCategorias() {
 
     // Mostrar mensaje sobre categorías existentes
     if (categoriasExistentes.size > 0) {
-        mensajeCategoria.textContent = `No agregue categorías que ya existen: ${Array.from(categoriasExistentes).join(', ')}`;
+        mensajeCategoria.textContent = `No agregue categorías diferentes a los que ya existen nio productos, para ello se muestran los productos y categorás ya agregados : ${Array.from(categoriasExistentes).join(', ')}`;
     }
 
     // Habilitar el botón de agregar después de cargar los productos
@@ -97,10 +102,12 @@ async function agregarProducto(event) {
     const categoria = document.getElementById('categoria').value;
 
     try {
+        const token = localStorage.getItem("jwtToken");
         await fetch('http://localhost:8080/productos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({ nombre, categoria }),
         });
@@ -119,5 +126,6 @@ mostrarProductosYCategorias();
 
 </body>
 </html>
+
 
 
