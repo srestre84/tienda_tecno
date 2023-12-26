@@ -38,7 +38,7 @@
 
 <!-- Contenedor para mostrar productos existentes en una tabla -->
 <div>
-    <h2>Productos Existenes</h2>
+    <h2>Productos Existentes</h2>
     <p id="mensaje-categoria"></p>
     <table id="tabla-productos">
         <thead>
@@ -54,12 +54,7 @@
 <script>
 async function obtenerProductosDesdeServidor() {
     try {
-        const token = localStorage.getItem("jwtToken");
-        const respuesta = await fetch('http://localhost:8080/productos', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        });
+        const respuesta = await fetch('http://localhost:8080/productos');
         const productos = await respuesta.json();
         return productos;
     } catch (error) {
@@ -88,7 +83,7 @@ async function mostrarProductosYCategorias() {
 
     // Mostrar mensaje sobre categorías existentes
     if (categoriasExistentes.size > 0) {
-        mensajeCategoria.textContent = `No agregue categorías diferentes a los que ya existen nio productos, para ello se muestran los productos y categorás ya agregados : ${Array.from(categoriasExistentes).join(', ')}`;
+        mensajeCategoria.textContent = `No agregue categorías diferentes a los que ya existen ni productos. Categorías ya agregadas: ${Array.from(categoriasExistentes).join(', ')}`;
     }
 
     // Habilitar el botón de agregar después de cargar los productos
@@ -126,6 +121,4 @@ mostrarProductosYCategorias();
 
 </body>
 </html>
-
-
 
