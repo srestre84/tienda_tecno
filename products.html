@@ -33,9 +33,9 @@
         <label for="categoria">Categoría:</label>
         <input type="text" id="categoria" name="categoria" required>
 
-        <!-- Agregar campo de entrada para el token -->
-        <label for="token">Token:</label>
-        <input type="text" id="token" name="token" placeholder="Ingrese su token" required>
+        <!-- Eliminar campo de entrada para el token -->
+        <!-- <label for="token">Token:</label>
+        <input type="text" id="token" name="token" placeholder="Ingrese su token" required> -->
 
         <button type="submit" disabled="true">Agregar Producto</button>
     </form>
@@ -100,7 +100,7 @@ async function agregarProducto(event) {
 
     const nombre = document.getElementById('nombre').value;
     const categoria = document.getElementById('categoria').value;
-    const token = document.getElementById('token').value;
+    const token = localStorage.getItem('jwtToken');
 
     try {
         await fetch('http://localhost:8080/productos', {
@@ -126,4 +126,3 @@ mostrarProductosYCategorias();
 
 </body>
 </html>
-
