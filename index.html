@@ -23,7 +23,7 @@
         ❘
     </nav>
     <section>
-        <h4> Regístrese o inicie sesión según sea el caso</h4>
+        <h4> Registrese o inicie sesión según sea el caso</h4>
 
         <div class="form-container" id="registroForm">
             <form>
@@ -66,63 +66,19 @@
                 <button type="submit">Iniciar Sesión</button>
             </form>
             <div id="mensaje"></div>
-
-            <!-- Agregamos un div para mostrar el token -->
-            <div id="tokenDiv"></div>
         </div>
     </section>
 
-    <script>
-          document.addEventListener('DOMContentLoaded', () => {
-            var loginForm = document.getElementById('loginForm')?.querySelector('form');
-            var mensajeDiv = document.getElementById('mensaje');
+    <Footer>
 
-            function realizarAccion(formData, endpoint) {
-                var apiUrl = `http://localhost:8080/${endpoint}`;
+    <a href="https://www.linkedin.com/in/sebastian-restrepo-restrepo-rico/">Linkedin</a>
+    <h4> Autor : Sebastian restrepo Rico</h3>
+    <h4>Para mas info comuniquese al Whatsapp 3167443613</h3>
 
-                return fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(Object.fromEntries(formData)),
-                    credentials: 'include',
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Error en la solicitud al servidor. Estado: ${response.status}`);
-                    }
+    </Footer>
 
-                    const contentType = response.headers.get('content-type');
-                    if (contentType && contentType.includes('application/json')) {
-                        return response.json();
-                    } else {
-                        return {};
-                    }
-                })
-                .then(data => {
-                    console.log('Respuesta del servidor:', data);
-
-                    mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
-                    setTimeout(() => {
-                        window.location.href = 'products.html';
-                    }, 2000);
-                })
-                .catch(error => {
-                    console.error('Error en la solicitud:', error);
-                    mensajeDiv.textContent = `Error en la conexión con el servidor. Detalles: ${error.message} (${endpoint}).`;
-                });
-            }
-
-            if (loginForm && mensajeDiv) {
-                loginForm.addEventListener('submit', event => {
-                    event.preventDefault();
-                    var formData = new FormData(loginForm);
-                    realizarAccion(formData, 'login');
-                });
-            }
-        });
-    </script>
+    <script src="registro.js"></script>
 </body>
 
 </html>
+
