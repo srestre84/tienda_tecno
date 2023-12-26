@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var backendUrl = "http://localhost:8080";
     
+    // Agrega el siguiente bloque de código para crear un elemento div en tu HTML
+    var tokenDiv = document.createElement('div');
+    tokenDiv.id = 'tokenDiv';
+    document.body.appendChild(tokenDiv);
+
     function realizarAccion(formData, endpoint, includeToken = false) {
         var apiUrl = `${backendUrl}/${endpoint}`;
 
@@ -15,7 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Incluir el token en la solicitud si es necesario
         if (includeToken) {
             var token = localStorage.getItem("jwtToken");
-            headers['Authorization'] = `Bearer ${token}`;
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            } else {
+                console.error('Token no encontrado.');
+                return Promise.reject(new Error('Token no encontrado.'));
+            }
         }
 
         return fetch(apiUrl, {
@@ -38,6 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             console.log('Respuesta del servidor:', data);
+
+            // Mostrar el token si está presente en la respuesta
+            if (data.token) {
+                console.log('Token recibido:', data.token);
+
+                // Mostrar el token en el div
+                tokenDiv.textContent = `Token recibido: ${data.token}`;
+            }
 
             mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
             setTimeout(() => {
@@ -85,6 +103,5 @@ document.addEventListener('DOMContentLoaded', () => {
         formularioProducto.addEventListener('submit', agregarProducto);
     }
 });
-
 
 
