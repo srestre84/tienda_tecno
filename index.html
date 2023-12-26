@@ -73,29 +73,18 @@
     </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+          document.addEventListener('DOMContentLoaded', () => {
             var loginForm = document.getElementById('loginForm')?.querySelector('form');
             var mensajeDiv = document.getElementById('mensaje');
 
-            // Agrega el siguiente bloque de código para crear un elemento div en tu HTML
-            var tokenDiv = document.getElementById('tokenDiv');
-
             function realizarAccion(formData, endpoint) {
-                var apiUrl = `https://localhost:8080/${endpoint}`;
-
-                var headers = {
-                    'Content-Type': 'application/json',
-                };
-
-                // Obtener el token del almacenamiento local
-                var token = localStorage.getItem("jwtToken");
-                if (token) {
-                    headers['Authorization'] = `Bearer ${token}`;
-                }
+                var apiUrl = `http://localhost:8080/${endpoint}`;
 
                 return fetch(apiUrl, {
                     method: 'POST',
-                    headers: headers,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify(Object.fromEntries(formData)),
                     credentials: 'include',
                 })
@@ -113,14 +102,6 @@
                 })
                 .then(data => {
                     console.log('Respuesta del servidor:', data);
-
-                    // Mostrar el token si está presente en la respuesta
-                    if (data.token) {
-                        console.log('Token recibido:', data.token);
-
-                        // Mostrar el token en el div
-                        tokenDiv.textContent = `Token recibido: ${data.token}`;
-                    }
 
                     mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
                     setTimeout(() => {
