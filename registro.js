@@ -1,40 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const registroForm = document.querySelector('#registroForm form');
-    const loginForm = document.querySelector('#loginForm form');
-    const mensajeDiv = document.getElementById('mensaje');
+    var registroForm = document.getElementById('registroForm')?.querySelector('form');
+    var loginForm = document.getElementById('loginForm')?.querySelector('form');
+    var mensajeDiv = document.getElementById('mensaje');
 
-    const backendUrl = "http://localhost:8080";
-
-    function handleErrors(response) {
-        if (!response.ok) {
-            throw new Error(`Error en la solicitud al servidor. Estado: ${response.status}`);
-        }
-        const contentType = response.headers.get('content-type');
-        return contentType && contentType.includes('application/json') ? response.json() : {};
-    }
-
-    function redirectToProductsPage() {
-        mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
-        setTimeout(() => {
-            window.location.href = 'products.html';
-        }, 2000);
-    }
+    var backendUrl = "http://localhost:8080";  
 
     function realizarAccion(formData, endpoint) {
-        const apiUrl = `${backendUrl}/${endpoint}`;
+        var apiUrl = `${backendUrl}/${endpoint}`;
 
-        fetch(apiUrl, {
+        return fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(Object.fromEntries(formData)),
-            credentials: 'include',
+            credentials: 'include', 
         })
-        .then(handleErrors)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud al servidor. Estado: ${response.status}`);
+            }
+         
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                return {}; 
+            }
+        })
         .then(data => {
             console.log('Respuesta del servidor:', data);
-            redirectToProductsPage();
+       
+            mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
+            setTimeout(() => {
+                window.location.href = 'products.html';
+            }, 2000); 
         })
         .catch(error => {
             console.error('Error en la solicitud:', error);
@@ -42,22 +42,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (registroForm) {
+    if (registroForm && mensajeDiv) {
         registroForm.addEventListener('submit', event => {
             event.preventDefault();
-            const formData = new FormData(registroForm);
+            var formData = new FormData(registroForm);
             realizarAccion(formData, 'usuarios');
         });
     }
 
-    if (loginForm) {
+    if (loginForm && mensajeDiv) {
         loginForm.addEventListener('submit', event => {
             event.preventDefault();
-            const formData = new FormData(loginForm);
+            var formData = new FormData(loginForm);
             realizarAccion(formData, 'login');
         });
     }
 });
+
 
 
 
