@@ -83,7 +83,7 @@ async function mostrarProductosYCategorias() {
 
     // Mostrar mensaje sobre categorías existentes
     if (categoriasExistentes.size > 0) {
-        mensajeCategoria.textContent = `No agregue categorías diferentes a los que ya existen ni productos. Categorías ya agregadas: ${Array.from(categoriasExistentes).join(', ')}`;
+        mensajeCategoria.textContent = `No agregue categorías diferentes a las que ya existen ni productos. Categorías ya agregadas: ${Array.from(categoriasExistentes).join(', ')}`;
     }
 
     // Habilitar el botón de agregar después de cargar los productos
@@ -121,4 +121,5 @@ mostrarProductosYCategorias();
 
 </body>
 </html>
+
 
