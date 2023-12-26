@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var loginForm = document.getElementById('loginForm')?.querySelector('form');
     var mensajeDiv = document.getElementById('mensaje');
 
-    var backendUrl = "http://localhost:8080";  
+    var backendUrl = "https://localhost:8080";  
 
     function realizarAccion(formData, endpoint) {
         var apiUrl = `${backendUrl}/${endpoint}`;
