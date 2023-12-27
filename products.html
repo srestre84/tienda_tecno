@@ -89,7 +89,7 @@ async function mostrarProductosYCategorias() {
 
         // Mostrar mensaje sobre categorías existentes
         if (categoriasExistentes.size > 0) {
-            mensajeCategoria.textContent = `No agregue categorías diferentes a las que ya existen ni productos. Categorías ya agregadas: ${Array.from(categoriasExistentes).join(', ')}`;
+            mensajeCategoria.textContent = `Puede  agregar las mismas categorías que ya existen, pero si ya existe el producton, simplemente cree un nuevo topico pero no lo vuelva a crear . Categorías ya agregadas: ${Array.from(categoriasExistentes).join(', ')}`;
         }
     } catch (error) {
         console.error('Error en mostrarProductosYCategorias:', error);
@@ -102,7 +102,7 @@ async function agregarProducto(event) {
 
     const nombre = document.getElementById('nombre').value;
     const categoria = document.getElementById('categoria').value;
-    const token = localStorage.getItem('jwtToken');
+    
 
     try {
         const respuesta = await fetch('http://localhost:8080/productos', {
