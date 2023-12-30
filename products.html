@@ -68,7 +68,7 @@
 
     <div class="nota-importante">
         <h2>¡Nota Importante!</h2>
-        <p>Esta es una nota importante que requiere la atención especial de los usuarios. Asegúrese de leerla cuidadosamente y seguir las instrucciones proporcionadas. Después de agregar el producto necesario o verificar si ya existe, puede seguir adelante y hacer clic en el siguiente botón para agregar si tiene alguna conexión con el producto agregado o con los productos que ya estaban agregados antes.</p>
+        <p>Esta es una nota importante que requiere la atención especial de los usuarios. Asegúrese de leerla cuidadosamente y seguir las instrucciones proporcionadas. Después de agregar el producto necesario o verificar si ya existe, puede seguir adelante y hacer clic en el siguiente botón para agregar si tiene alguna duda con el producto agregado o con los productos que ya estaban agregados antes.</p>
     </div>
 
     <a href="topicos.html">
@@ -112,7 +112,7 @@ async function mostrarProductosYCategorias() {
 
         // Mostrar mensaje sobre categorías existentes
         if (categoriasExistentes.size > 0) {
-            mensajeCategoria.textContent = `Puede  agregar las mismas categorías que ya existen, pero si ya existe el producton, simplemente cree un nuevo topico pero no lo vuelva a crear . Categorías ya agregadas: ${Array.from(categoriasExistentes).join(', ')}`;
+            mensajeCategoria.textContent = `Puede  agregar las mismas categorías que ya existen, pero si ya existe el producto, simplemente cree un nuevo tópico, pero no lo vuelva a crear . Categorías ya agregadas: ${Array.from(categoriasExistentes).join(', ')}`;
         }
     } catch (error) {
         console.error('Error en mostrarProductosYCategorias:', error);
