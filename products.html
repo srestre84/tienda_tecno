@@ -34,36 +34,46 @@
         }
     </style>
 </head>
+
 <body>
 
-<!-- Contenedor para agregar un nuevo producto -->
-<div>
-    <h2>Agregar Nuevo Producto</h2>
-    <form id="formulario-producto">
-        <label for="nombre">Nombre del Producto:</label>
-        <input type="text" id="nombre" name="nombre" required>
+    <!-- Contenedor para agregar un nuevo producto -->
+    <div>
+        <h2>Agregar Nuevo Producto</h2>
+        <form id="formulario-producto">
+            <label for="nombre">Nombre del Producto:</label>
+            <input type="text" id="nombre" name="nombre" required>
 
-        <label for="categoria">Categoría:</label>
-        <input type="text" id="categoria" name="categoria" required>
+            <label for="categoria">Categoría:</label>
+            <input type="text" id="categoria" name="categoria" required>
 
-        <button type="submit">Agregar Producto</button>
-    </form>
-</div>
+            <button type="submit">Agregar Producto</button>
+        </form>
+    </div>
 
-<!-- Contenedor para mostrar productos existentes en una tabla -->
-<div>
-    <h2>Productos Existentes</h2>
-    <p id="mensaje-categoria"></p>
-    <table id="tabla-productos">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Categoría</th>
-            </tr>
-        </thead>
-        <tbody id="productos-container"></tbody>
-    </table>
-</div>
+    <!-- Contenedor para mostrar productos existentes en una tabla -->
+    <div>
+        <h2>Productos Existentes</h2>
+        <p id="mensaje-categoria"></p>
+        <table id="tabla-productos">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                </tr>
+            </thead>
+            <tbody id="productos-container"></tbody>
+        </table>
+    </div>
+
+    <div class="nota-importante">
+        <h2>¡Nota Importante!</h2>
+        <p>Esta es una nota importante que requiere la atención especial de los usuarios. Asegúrese de leerla cuidadosamente y seguir las instrucciones proporcionadas. Después de agregar el producto necesario o verificar si ya existe, puede seguir adelante y hacer clic en el siguiente botón para agregar si tiene alguna conexión con el producto agregado o con los productos que ya estaban agregados antes.</p>
+    </div>
+
+    <a href="topicos.html">
+        <button>Ir a Tópicos</button>
+    </a>
 
 <script>
 async function obtenerProductosDesdeServidor() {
@@ -142,14 +152,7 @@ document.getElementById('formulario-producto').addEventListener('submit', agrega
 
 // Mostrar productos y categorías al cargar la página
 mostrarProductosYCategorias();
- <div class="nota-importante">
- <h2>¡Nota Importante!</h2>
- <p>Esta es una nota importante que requiere la atención especial de los usuarios. Asegúrese de leerla cuidadosamente y seguir las instrucciones proporcionadas.Después de agregar el producto necesario o ver si esta ya existe, puede seguir adelante y dar clic en el siguiente botón para agregar si tienes alguna con el producto agregado o con los productos que ya estaban agregados antes </p>
-    </div>
-<a href="topicos.html">
-<button>Ir a Tópicos</button>
-</a>
-</div>
+ 
     
 </script>
 
