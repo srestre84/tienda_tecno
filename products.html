@@ -19,6 +19,19 @@
             padding: 8px;
             text-align: left;
         }
+
+        /* Estilos para la tabla de información del usuario */
+        #tabla-info-usuario {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #tabla-info-usuario th, #tabla-info-usuario td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -34,13 +47,23 @@
             <label for="categoria">Categoría:</label>
             <input type="text" id="categoria" name="categoria" required>
 
-            <!-- Campo para mostrar el id del usuario -->
-            <p>ID del Usuario:</p>
-            <p id="usuario_id"></p>
-            <p>Guarde este ID del Usuario para futuros procesos.</p>
-
             <button type="submit">Agregar Producto</button>
         </form>
+    </div>
+
+    <!-- Contenedor para mostrar información del usuario -->
+    <div>
+        <h2>Información del Usuario</h2>
+        <table id="tabla-info-usuario">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="info-usuario-container"></tbody>
+        </table>
     </div>
 
     <!-- Contenedor para mostrar productos existentes en una tabla -->
@@ -51,7 +74,6 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Categoría</th>
-                    <th>ID del Usuario</th>
                 </tr>
             </thead>
             <tbody id="productos-container"></tbody>
@@ -82,11 +104,31 @@ async function mostrarProductosYCategorias() {
 
         productos.forEach(producto => {
             const productoElement = document.createElement('tr');
-            productoElement.innerHTML = `<td>${producto.nombre}</td><td>${producto.categoria}</td><td>${producto.usuario_id}</td>`;
+            productoElement.innerHTML = `<td>${producto.nombre}</td><td>${producto.categoria}</td>`;
             container.appendChild(productoElement);
         });
     } catch (error) {
         console.error('Error en mostrarProductosYCategorias:', error);
+        // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
+    }
+}
+
+async function mostrarInfoUsuario() {
+    const container = document.getElementById('info-usuario-container');
+    try {
+        container.innerHTML = '';
+
+        // Se obtiene la información del usuario actual y se muestra en la tabla
+        const infoUsuario = await obtenerInfoUsuario();
+
+        // Crear una fila en la tabla para cada campo de la información del usuario
+        Object.entries(infoUsuario).forEach(([campo, valor]) => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `<td>${campo}</td><td>${valor}</td>`;
+            container.appendChild(fila);
+        });
+    } catch (error) {
+        console.error('Error en mostrarInfoUsuario:', error);
         // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
     }
 }
@@ -98,10 +140,6 @@ async function agregarProducto(event) {
     const categoria = document.getElementById('categoria').value;
 
     try {
-        // Se obtiene el id del usuario actual y se muestra
-        const usuario_id = await obtenerUsuarioId();
-        document.getElementById('usuario_id').textContent = usuario_id;
-
         // Aquí puedes enviar los datos del producto al servidor si es necesario
         // ...
 
@@ -114,13 +152,16 @@ async function agregarProducto(event) {
 
 document.getElementById('formulario-producto').addEventListener('submit', agregarProducto);
 
+// Mostrar información del usuario al cargar la página
+mostrarInfoUsuario();
+
 // Mostrar productos y categorías al cargar la página
 mostrarProductosYCategorias();
 
-// Función para obtener el id del usuario actual desde el servidor
-async function obtenerUsuarioId() {
+// Función para obtener la información del usuario actual desde el servidor
+async function obtenerInfoUsuario() {
     try {
-        const respuesta = await fetch('http://localhost:8080/usuarios/id', {
+        const respuesta = await fetch('http://localhost:8080/usuarios', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,13 +170,13 @@ async function obtenerUsuarioId() {
         });
 
         if (!respuesta.ok) {
-            throw new Error(`Error al obtener el id del usuario. Código de estado: ${respuesta.status}`);
+            throw new Error(`Error al obtener la información del usuario. Código de estado: ${respuesta.status}`);
         }
 
         const data = await respuesta.json();
-        return data.id;
+        return data;
     } catch (error) {
-        console.error('Error al obtener el id del usuario:', error);
+        console.error('Error al obtener la información del usuario:', error);
         throw error;
     }
 }
