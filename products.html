@@ -58,9 +58,8 @@
             <thead>
                 <tr>
                     <th>id</th>
-                    <th>Usuario</th>
-                    <th>Correo-</th>
-                    <!-- Agrega más campos según la información del usuario -->
+                    <th>Nombre</th>
+              
                 </tr>
             </thead>
             <tbody id="info-usuario-container"></tbody>
@@ -123,10 +122,10 @@ async function mostrarInfoUsuario() {
         const infoUsuario = await obtenerInfoUsuario();
 
         // Crear una fila en la tabla para cada campo de la información del usuario
-        Object.entries(infoUsuario).forEach(([campo, valor]) => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `<td>${campo}</td><td>${valor}</td>`;
-            container.appendChild(fila);
+        usuarios.forEach(usuarios => {
+            const usuariosElement = document.createElement('tr');
+            usuariosElement.innerHTML = `<td>${usuarios.id}</td><td>${usuarios.nombre}</td>`;
+            container.appendChild(usuariosElement);
         });
     } catch (error) {
         console.error('Error en mostrarInfoUsuario:', error);
@@ -174,8 +173,8 @@ async function obtenerInfoUsuario() {
             throw new Error(`Error al obtener la información del usuario. Código de estado: ${respuesta.status}`);
         }
 
-        const data = await respuesta.json();
-        return data;
+        const usuarios = await respuesta.json();
+        return usuarios;
     } catch (error) {
         console.error('Error al obtener la información del usuario:', error);
         throw error;
