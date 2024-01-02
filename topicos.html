@@ -31,6 +31,10 @@
             <!-- Las opciones se cargarán dinámicamente con JavaScript -->
         </select>
 
+        <!-- Campos ocultos para autorId y productoId -->
+        <input type="hidden" id="autorId" name="autorId" value="1"> <!-- Reemplaza 1 con el ID del autor actual -->
+        <input type="hidden" id="productoId" name="productoId">
+
         <button type="button" onclick="crearTopico()">Crear Tópico</button>
     </form>
 </div>
@@ -78,7 +82,8 @@
         const datosTopico = {
             titulo: formulario.titulo.value,
             mensaje: formulario.mensaje.value,
-            productoId: formulario.producto.value
+            productoId: formulario.producto.value,
+            autorId: formulario.autorId.value
         };
 
         try {
@@ -108,3 +113,4 @@
 </script>
 
 </body>
+</html>
