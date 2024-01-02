@@ -36,40 +36,122 @@
 </head>
 
 <body>
+
+    <!-- Contenedor para agregar un nuevo producto -->
+    <div>
+        <h2>Agregar Nuevo Producto</h2>
+        <form id="formulario-producto">
+            <label for="nombre">Nombre del Producto:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="categoria">Categoría:</label>
+            <input type="text" id="categoria" name="categoria" required>
+
+            <button type="submit">Agregar Producto</button>
+        </form>
+    </div>
+
     <!-- Contenedor para mostrar información del usuario -->
     <div>
         <h2>Información del Usuario</h2>
         <table id="tabla-info-usuario">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>id</th>
                     <th>Nombre</th>
-                    <!-- Agrega más columnas según la información que desees mostrar -->
                 </tr>
             </thead>
             <tbody id="info-usuario-container"></tbody>
         </table>
     </div>
 
-    <!-- Tu contenido HTML existente aquí -->
+    <!-- Contenedor para mostrar productos existentes en una tabla -->
+    <div>
+        <h2>Productos Existentes</h2>
+        <table id="tabla-productos">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                </tr>
+            </thead>
+            <tbody id="productos-container"></tbody>
+        </table>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async function () {
+        async function obtenerProductosDesdeServidor() {
             try {
+                const respuesta = await fetch('http://localhost:8080/productos');
+                if (!respuesta.ok) {
+                    throw new Error(`Error al obtener productos. Código de estado: ${respuesta.status}`);
+                }
+                const productos = await respuesta.json();
+                return productos;
+            } catch (error) {
+                console.error('Error al obtener productos:', error);
+                throw error;
+            }
+        }
+
+        async function mostrarProductosYCategorias() {
+            const container = document.getElementById('productos-container');
+            try {
+                container.innerHTML = '';
+
+                const productos = await obtenerProductosDesdeServidor();
+
+                productos.forEach(producto => {
+                    const productoElement = document.createElement('tr');
+                    productoElement.innerHTML = `<td>${producto.nombre}</td><td>${producto.categoria}</td>`;
+                    container.appendChild(productoElement);
+                });
+            } catch (error) {
+                console.error('Error en mostrarProductosYCategorias:', error);
+            }
+        }
+
+        async function mostrarInfoUsuario() {
+            const container = document.getElementById('info-usuario-container');
+            try {
+                container.innerHTML = '';
+
                 const infoUsuario = await obtenerInfoUsuario();
 
-                // Mostrar la información del usuario en la tabla
-                const container = document.getElementById('info-usuario-container');
-                const usuarioElement = document.createElement('tr');
-                usuarioElement.innerHTML = `<td>${infoUsuario.id}</td><td>${infoUsuario.nombre}</td>`;
-                container.appendChild(usuarioElement);
+                infoUsuario.forEach(usuario => {
+                    const usuarioElement = document.createElement('tr');
+                    usuarioElement.innerHTML = `<td>${usuario.id}</td><td>${usuario.nombre}</td>`;
+                    container.appendChild(usuarioElement);
+                });
             } catch (error) {
-                console.error('Error al obtener la información del usuario:', error);
-                // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
+                console.error('Error en mostrarInfoUsuario:', error);
             }
-        });
+        }
 
-        // Función para obtener la información del usuario actual desde el servidor
+        async function agregarProducto(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const categoria = document.getElementById('categoria').value;
+
+            try {
+                // Enviar datos del producto al servidor si es necesario
+                // ...
+
+                await mostrarProductosYCategorias();
+            } catch (error) {
+                console.error('Error al agregar producto:', error);
+            }
+        }
+
+        document.getElementById('formulario-producto').addEventListener('submit', agregarProducto);
+
+        // Mostrar información del usuario al cargar la página
+        mostrarInfoUsuario();
+
+        // Mostrar productos y categorías al cargar la página
+        mostrarProductosYCategorias();
+
         async function obtenerInfoUsuario() {
             try {
                 const respuesta = await fetch('http://localhost:8080/usuarios', {
@@ -84,8 +166,8 @@
                     throw new Error(`Error al obtener la información del usuario. Código de estado: ${respuesta.status}`);
                 }
 
-                const usuarioActual = await respuesta.json();
-                return usuarioActual;
+                const usuarios = await respuesta.json();
+                return usuarios;
             } catch (error) {
                 console.error('Error al obtener la información del usuario:', error);
                 throw error;
