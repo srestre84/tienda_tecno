@@ -77,36 +77,38 @@
         });
     }
 
-    async function crearTopico() {
-        const formulario = document.getElementById('formulario-topico');
-        const datosTopico = {
-            titulo: formulario.titulo.value,
-            mensaje: formulario.mensaje.value,
-            productoId: formulario.producto.value,
-            autorId: formulario.autorId.value
-        };
+async function crearTopico() {
+    const formulario = document.getElementById('formulario-topico');
+    const datosTopico = {
+        titulo: formulario.titulo.value,
+        mensaje: formulario.mensaje.value,
+        productoId: formulario.producto.value,
+        autorId: formulario.autorId.value
+    };
 
-        try {
-            const respuesta = await fetch('http://localhost:8080/topicos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(datosTopico)
-            });
+    // Actualizar el valor de productoId
+    datosTopico.productoId = formulario.producto.value;
 
-            if (!respuesta.ok) {
-                throw new Error(`Error al crear el tópico. Código de estado: ${respuesta.status}`);
-            }
+    try {
+        const respuesta = await fetch('http://localhost:8080/topicos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datosTopico)
+        });
 
-            alert('Tópico creado exitosamente.');
-            formulario.reset();
-        } catch (error) {
-            console.error('Error al crear el tópico:', error);
-            // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
+        if (!respuesta.ok) {
+            throw new Error(`Error al crear el tópico. Código de estado: ${respuesta.status}`);
         }
-    }
 
+        alert('Tópico creado exitosamente.');
+        formulario.reset();
+    } catch (error) {
+        console.error('Error al crear el tópico:', error);
+        // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
+    }
+}
     // Llamadas a las funciones para mostrar productos y cargar opciones del select al cargar la página
     mostrarProductos();
     cargarOpcionesProductos();
