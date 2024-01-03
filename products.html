@@ -81,6 +81,7 @@
     </div>
 
     <script>
+        // Función asíncrona para obtener productos desde el servidor
         async function obtenerProductosDesdeServidor() {
             try {
                 const respuesta = await fetch('http://localhost:8080/productos');
@@ -95,6 +96,7 @@
             }
         }
 
+        // Función para mostrar productos y categorías en la tabla
         async function mostrarProductosYCategorias() {
             const container = document.getElementById('productos-container');
             try {
@@ -112,6 +114,7 @@
             }
         }
 
+        // Función para agregar un nuevo producto
         async function agregarProducto(event) {
             event.preventDefault();
 
@@ -119,20 +122,20 @@
             const categoria = document.getElementById('categoria').value;
 
             try {
-                // Enviar datos del producto al servidor si es necesario
-                // ...
-
+                // Mostrar productos y categorías después de agregar el producto
                 await mostrarProductosYCategorias();
             } catch (error) {
                 console.error('Error al agregar producto:', error);
             }
         }
 
+        // Función para redirigir a la página de tópicos
         function verTopicos() {
             // Redirigir a la página de tópicos
             window.location.href = 'topicos.html';
         }
 
+        // Agregar evento de submit al formulario
         document.getElementById('formulario-producto').addEventListener('submit', agregarProducto);
 
         // Mostrar productos y categorías al cargar la página
@@ -143,6 +146,7 @@
 </body>
 
 </html>
+
 
     
 
