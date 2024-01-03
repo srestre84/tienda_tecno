@@ -32,51 +32,52 @@
             padding: 8px;
             text-align: left;
         }
+
+        /* Estilos para el contenedor principal */
+        #contenedor-principal {
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- Contenedor para agregar un nuevo producto -->
-    <div>
-        <h2>Agregar Nuevo Producto</h2>
-        <form id="formulario-producto">
-            <label for="nombre">Nombre del Producto:</label>
-            <input type="text" id="nombre" name="nombre" required>
+    <div id="contenedor-principal">
 
-            <label for="categoria">Categoría:</label>
-            <input type="text" id="categoria" name="categoria" required>
+        <!-- Contenedor para agregar un nuevo producto -->
+        <div>
+            <h2>Agregar Nuevo Producto</h2>
+            <form id="formulario-producto">
+                <label for="nombre">Nombre del Producto:</label>
+                <input type="text" id="nombre" name="nombre" required>
 
-            <button type="submit">Agregar Producto</button>
-        </form>
-    </div>
+                <label for="categoria">Categoría:</label>
+                <input type="text" id="categoria" name="categoria" required>
 
-    <!-- Contenedor para mostrar información del usuario -->
-    <div>
-        <h2>Información del Usuario</h2>
-        <table id="tabla-info-usuario">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Nombre</th>
-                </tr>
-            </thead>
-            <tbody id="info-usuario-container"></tbody>
-        </table>
-    </div>
+                <button type="submit">Agregar Producto</button>
+            </form>
+        </div>
 
-    <!-- Contenedor para mostrar productos existentes en una tabla -->
-    <div>
-        <h2>Productos Existentes</h2>
-        <table id="tabla-productos">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Categoría</th>
-                </tr>
-            </thead>
-            <tbody id="productos-container"></tbody>
-        </table>
+        <!-- Contenedor para mostrar productos existentes en una tabla -->
+        <div>
+            <h2>Productos Existentes</h2>
+            <table id="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                    </tr>
+                </thead>
+                <tbody id="productos-container"></tbody>
+            </table>
+        </div>
+
+        <!-- Mensaje y botón para ver tópicos -->
+        <div>
+            <p>Después de agregar el producto o verificar que ya existe, continúa dando click en el botón para ver tópicos.</p>
+            <button id="ver-topicos" onclick="verTopicos()">Ver Tópicos</button>
+        </div>
+
     </div>
 
     <script>
@@ -111,8 +112,6 @@
             }
         }
 
-       
-
         async function agregarProducto(event) {
             event.preventDefault();
 
@@ -129,17 +128,20 @@
             }
         }
 
-        document.getElementById('formulario-producto').addEventListener('submit', agregarProducto);
+        function verTopicos() {
+            alert("Después de agregar el producto o verificar que ya existe, puedes continuar viendo tópicos.");
+            // Aquí puedes redirigir a la página de tópicos o realizar otras acciones según tus necesidades.
+        }
 
-    
+        document.getElementById('formulario-producto').addEventListener('submit', agregarProducto);
 
         // Mostrar productos y categorías al cargar la página
         mostrarProductosYCategorias();
 
-      
     </script>
 
 </body>
 
 </html>
+
 
