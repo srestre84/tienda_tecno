@@ -18,6 +18,13 @@
 </div>
 
 <div>
+    <h2>Usuarios Registrados</h2>
+    <table id="usuarios-container">
+        <!-- Aquí se mostrarán los usuarios -->
+    </table>
+</div>
+
+<div>
     <h2>Crear Tópico</h2>
     <form id="formulario-topico">
         <label for="titulo">Título:</label>
@@ -31,18 +38,27 @@
             <!-- Las opciones se cargarán dinámicamente con JavaScript -->
         </select>
 
+        <label for="usuario">Selecciona un Usuario:</label>
+        <select id="usuario" name="usuario" required>
+            <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+        </select>
+
         <button type="button" onclick="crearTopico()">Crear Tópico</button>
     </form>
 </div>
 
 <script>
-async function cargarProductos() {
+async function cargarProductosYUsuarios() {
     try {
         // Realiza una solicitud al servidor para obtener la lista de productos.
-        const respuesta = await fetch('http://localhost:8080/productos');
-        const productos = await respuesta.json();
+        const respuestaProductos = await fetch('http://localhost:8080/productos');
+        const productos = await respuestaProductos.json();
 
-        // Agrega las opciones al select y muestra el ID del producto.
+        // Realiza una solicitud al servidor para obtener la lista de usuarios.
+        const respuestaUsuarios = await fetch('http://localhost:8080/usuarios');
+        const usuarios = await respuestaUsuarios.json();
+
+        // Agrega las opciones al select de productos.
         const selectProducto = document.getElementById('producto');
         productos.forEach(producto => {
             const option = document.createElement('option');
@@ -50,8 +66,17 @@ async function cargarProductos() {
             option.text = `${producto.nombre} (ID: ${producto.id})`;
             selectProducto.add(option);
         });
+
+        // Agrega las opciones al select de usuarios.
+        const selectUsuario = document.getElementById('usuario');
+        usuarios.forEach(usuario => {
+            const option = document.createElement('option');
+            option.value = usuario.id;
+            option.text = `${usuario.nombre} (ID: ${usuario.id})`;
+            selectUsuario.add(option);
+        });
     } catch (error) {
-        console.error('Error al cargar productos:', error);
+        console.error('Error al cargar productos y usuarios:', error);
     }
 }
 
@@ -61,7 +86,7 @@ async function crearTopico() {
         titulo: formulario.titulo.value,
         mensaje: formulario.mensaje.value,
         productoId: formulario.producto.value,
-        usuarioId: localStorage.getItem('userId') // Obtén el ID de usuario almacenado en localStorage
+        usuarioId: formulario.usuario.value
     };
 
     try {
@@ -85,10 +110,11 @@ async function crearTopico() {
     }
 }
 
-// Llamada a la función para cargar productos al cargar la página.
-cargarProductos();
+// Llamada a la función para cargar productos y usuarios al cargar la página.
+cargarProductosYUsuarios();
 </script>
 
 </body>
 </html>
+
 
