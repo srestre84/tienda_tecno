@@ -1,120 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Tópico</title>
 </head>
+
 <body>
 
-<h1>Crear Tópico</h1>
+    <h1>Crear Tópico</h1>
 
-<div>
-    <h2>Productos Registrados</h2>
-    <table id="productos-container">
-        <!-- Aquí se mostrarán los productos -->
-    </table>
-</div>
+    <div>
+        <h2>Productos Registrados</h2>
+        <table id="productos-container">
+            <!-- Aquí se mostrarán los productos -->
+        </table>
+    </div>
 
-<div>
-    <h2>Usuarios Registrados</h2>
-    <table id="usuarios-container">
-        <!-- Aquí se mostrarán los usuarios -->
-    </table>
-</div>
+    <div>
+        <h2>Crear Tópico</h2>
+        <form id="formulario-topico">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" required>
 
-<div>
-    <h2>Crear Tópico</h2>
-    <form id="formulario-topico">
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" required>
-        
-        <label for="mensaje">Mensaje:</label>
-        <textarea id="mensaje" name="mensaje" required></textarea>
+            <label for="mensaje">Mensaje:</label>
+            <textarea id="mensaje" name="mensaje" required></textarea>
 
-        <label for="producto">Selecciona un Producto:</label>
-        <select id="producto" name="producto" required>
-            <!-- Las opciones se cargarán dinámicamente con JavaScript -->
-        </select>
+            <label for="producto">Selecciona un Producto:</label>
+            <input type="text" id="producto" name="producto" list="productos-sugeridos" required placeholder="Escribe el nombre del producto">
+            <datalist id="productos-sugeridos">
+                <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+            </datalist>
 
-        <label for="usuario">Selecciona un Usuario:</label>
-        <select id="usuario" name="usuario" required>
-            <!-- Las opciones se cargarán dinámicamente con JavaScript -->
-        </select>
+            <button type="button" onclick="crearTopico()">Crear Tópico</button>
+        </form>
+    </div>
 
-        <button type="button" onclick="crearTopico()">Crear Tópico</button>
-    </form>
-</div>
+    <script>
+        async function cargarProductos() {
+            try {
+                // Realiza una solicitud al servidor para obtener la lista de productos.
+                const respuestaProductos = await fetch('http://localhost:8080/productos');
+                const productos = await respuestaProductos.json();
 
-<script>
-async function cargarProductosYUsuarios() {
-    try {
-        // Realiza una solicitud al servidor para obtener la lista de productos.
-        const respuestaProductos = await fetch('http://localhost:8080/productos');
-        const productos = await respuestaProductos.json();
+                // Muestra la lista de productos en una tabla (puedes personalizar esto según tus necesidades).
+                const productosContainer = document.getElementById('productos-container');
+                productos.forEach(producto => {
+                    const row = productosContainer.insertRow();
+                    const cell = row.insertCell();
+                    cell.textContent = producto.nombre;
+                });
 
-        // Realiza una solicitud al servidor para obtener la lista de usuarios.
-        const respuestaUsuarios = await fetch('http://localhost:8080/usuarios');
-        const usuarios = await respuestaUsuarios.json();
-
-        // Agrega las opciones al select de productos.
-        const selectProducto = document.getElementById('producto');
-        productos.forEach(producto => {
-            const option = document.createElement('option');
-            option.value = producto.id;
-            option.text = `${producto.nombre} (ID: ${producto.id})`;
-            selectProducto.add(option);
-        });
-
-        // Agrega las opciones al select de usuarios.
-        const selectUsuario = document.getElementById('usuario');
-        usuarios.forEach(usuario => {
-            const option = document.createElement('option');
-            option.value = usuario.id;
-            option.text = `${usuario.nombre} (ID: ${usuario.id})`;
-            selectUsuario.add(option);
-        });
-    } catch (error) {
-        console.error('Error al cargar productos y usuarios:', error);
-    }
-}
-
-async function crearTopico() {
-    const formulario = document.getElementById('formulario-topico');
-    const datosTopico = {
-        titulo: formulario.titulo.value,
-        mensaje: formulario.mensaje.value,
-        productoId: formulario.producto.value,
-        usuarioId: formulario.usuario.value
-    };
-
-    try {
-        const respuesta = await fetch('http://localhost:8080/topicos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datosTopico)
-        });
-
-        if (!respuesta.ok) {
-            throw new Error(`Error al crear el tópico. Código de estado: ${respuesta.status}`);
+                // Carga las opciones para el datalist.
+                const datalist = document.getElementById('productos-sugeridos');
+                productos.forEach(producto => {
+                    const option = document.createElement('option');
+                    option.value = producto.nombre;
+                    datalist.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error al cargar productos:', error);
+            }
         }
 
-        alert('Tópico creado exitosamente.');
-        formulario.reset();
-    } catch (error) {
-        console.error('Error al crear el tópico:', error);
-        // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
-    }
-}
+        async function crearTopico() {
+            const formulario = document.getElementById('formulario-topico');
+            const datosTopico = {
+                titulo: formulario.titulo.value,
+                mensaje: formulario.mensaje.value,
+                productoNombre: formulario.producto.value
+            };
 
-// Llamada a la función para cargar productos y usuarios al cargar la página.
-cargarProductosYUsuarios();
-</script>
+            try {
+                const respuesta = await fetch('http://localhost:8080/topicos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datosTopico)
+                });
+
+                if (!respuesta.ok) {
+                    throw new Error(`Error al crear el tópico. Código de estado: ${respuesta.status}`);
+                }
+
+                alert('Tópico creado exitosamente.');
+                formulario.reset();
+            } catch (error) {
+                console.error('Error al crear el tópico:', error);
+                // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
+            }
+        }
+
+        // Llamada a la función para cargar productos al cargar la página.
+        cargarProductos();
+    </script>
 
 </body>
+
 </html>
 
 
