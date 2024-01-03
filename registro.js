@@ -59,10 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', event => {
             event.preventDefault();
             var formData = new FormData(loginForm);
-            realizarAccion(formData, 'login');
+            realizarAccion(formData, 'login').then(() => {
+                // Agregar aquí el código para redirigir o realizar otras acciones después del inicio de sesión.
+            });
         });
     }
 });
+
 
 
 
