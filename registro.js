@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(`Error en la solicitud al servidor. Estado: ${response.status}`);
             }
-         
+
             const contentType = response.headers.get('content-type');
             if (contentType && contentType.includes('application/json')) {
                 return response.json();
@@ -30,6 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             console.log('Respuesta del servidor:', data);
+
+            if (data.id) {
+                // Guarda el ID del usuario en algún lugar accesible para usarlo posteriormente
+                localStorage.setItem('userId', data.ID);
+            }
        
             mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
             setTimeout(() => {
