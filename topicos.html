@@ -60,7 +60,8 @@ async function crearTopico() {
     const datosTopico = {
         titulo: formulario.titulo.value,
         mensaje: formulario.mensaje.value,
-        productoId: formulario.producto.value
+        productoId: formulario.producto.value,
+        usuarioId: localStorage.getItem('userId') // Obtén el ID de usuario almacenado en localStorage
     };
 
     try {
@@ -90,3 +91,4 @@ cargarProductos();
 
 </body>
 </html>
+
