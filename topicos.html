@@ -65,9 +65,9 @@
                 });
 
                 // Recupera el autor_id almacenado en localStorage
-                const autorId = localStorage.getItem('userId');
-                if (autorId) {
-                    document.getElementById('autor_id').value = autorId;
+                const userId = localStorage.getItem('userId');
+                if (userId) {
+                    document.getElementById('autor_id').value = userId;
                 } else {
                     console.error('No se encontró el autor_id en localStorage.');
                 }
