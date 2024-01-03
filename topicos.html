@@ -29,10 +29,9 @@
             <textarea id="mensaje" name="mensaje" required></textarea>
 
             <label for="producto">Selecciona un Producto:</label>
-            <input type="text" id="producto" name="producto" list="productos-sugeridos" required placeholder="Escribe el nombre del producto">
-            <datalist id="productos-sugeridos">
+            <select id="producto" name="producto" required>
                 <!-- Las opciones se cargarán dinámicamente con JavaScript -->
-            </datalist>
+            </select>
 
             <button type="button" onclick="crearTopico()">Crear Tópico</button>
         </form>
@@ -53,13 +52,23 @@
                     cell.textContent = producto.nombre;
                 });
 
-                // Carga las opciones para el datalist.
-                const datalist = document.getElementById('productos-sugeridos');
+                // Carga las opciones para el select.
+                const selectProducto = document.getElementById('producto');
                 productos.forEach(producto => {
                     const option = document.createElement('option');
-                    option.value = producto.nombre;
-                    datalist.appendChild(option);
+                    option.value = producto.id; // Asigna el ID del producto como valor
+                    option.text = producto.nombre;
+                    selectProducto.add(option);
                 });
+
+                // Recupera el autor_id almacenado en localStorage
+                const autorId = localStorage.getItem('userId');
+                if (autorId) {
+                    document.getElementById('autor_id').value = autorId;
+                } else {
+                    console.error('No se encontró el autor_id en localStorage.');
+                }
+
             } catch (error) {
                 console.error('Error al cargar productos:', error);
             }
@@ -70,7 +79,8 @@
             const datosTopico = {
                 titulo: formulario.titulo.value,
                 mensaje: formulario.mensaje.value,
-                productoNombre: formulario.producto.value
+                productoId: formulario.producto.value,
+                autorId: formulario.autor_id.value // Utiliza el valor del campo oculto para autor_id
             };
 
             try {
@@ -101,5 +111,6 @@
 </body>
 
 </html>
+
 
 
