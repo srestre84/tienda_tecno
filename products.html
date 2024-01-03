@@ -111,22 +111,7 @@
             }
         }
 
-        async function mostrarInfoUsuario() {
-            const container = document.getElementById('info-usuario-container');
-            try {
-                container.innerHTML = '';
-
-                const infoUsuario = await obtenerInfoUsuario();
-
-                infoUsuario.forEach(usuario => {
-                    const usuarioElement = document.createElement('tr');
-                    usuarioElement.innerHTML = `<td>${usuario.id}</td><td>${usuario.nombre}</td>`;
-                    container.appendChild(usuarioElement);
-                });
-            } catch (error) {
-                console.error('Error en mostrarInfoUsuario:', error);
-            }
-        }
+       
 
         async function agregarProducto(event) {
             event.preventDefault();
@@ -146,33 +131,12 @@
 
         document.getElementById('formulario-producto').addEventListener('submit', agregarProducto);
 
-        // Mostrar información del usuario al cargar la página
-        mostrarInfoUsuario();
+    
 
         // Mostrar productos y categorías al cargar la página
         mostrarProductosYCategorias();
 
-        async function obtenerInfoUsuario() {
-            try {
-                const respuesta = await fetch('http://localhost:8080/usuarios', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include'
-                });
-
-                if (!respuesta.ok) {
-                    throw new Error(`Error al obtener la información del usuario. Código de estado: ${respuesta.status}`);
-                }
-
-                const usuarios = await respuesta.json();
-                return usuarios;
-            } catch (error) {
-                console.error('Error al obtener la información del usuario:', error);
-                throw error;
-            }
-        }
+      
     </script>
 
 </body>
