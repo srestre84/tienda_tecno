@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var loginForm = document.getElementById('loginForm')?.querySelector('form');
     var mensajeDiv = document.getElementById('mensaje');
 
-    var backendUrl = "http://localhost:8080";  
+    var backendUrl = "http://localhost:8080";
 
     function realizarAccion(formData, endpoint) {
         var apiUrl = `${backendUrl}/${endpoint}`;
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(Object.fromEntries(formData)),
-            credentials: 'include', 
+            credentials: 'include',
         })
         .then(response => {
             if (!response.ok) {
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (contentType && contentType.includes('application/json')) {
                 return response.json();
             } else {
-                return {}; 
+                return {};
             }
         })
         .then(data => {
@@ -33,13 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.id) {
                 // Guarda el ID del usuario en algún lugar accesible para usarlo posteriormente
-                localStorage.setItem('userId', data.ID);
+                localStorage.setItem('userId', data.id);
             }
-       
+
             mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
             setTimeout(() => {
                 window.location.href = 'products.html';
-            }, 2000); 
+            }, 2000);
         })
         .catch(error => {
             console.error('Error en la solicitud:', error);
@@ -65,8 +65,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-
-
-
-

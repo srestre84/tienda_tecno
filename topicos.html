@@ -59,7 +59,7 @@
                 const selectProducto = document.getElementById('producto');
                 productos.forEach(producto => {
                     const option = document.createElement('option');
-                    option.value = producto.producto_id; // Ajusta aquí para reflejar el cambio en el backend
+                    option.value = producto.id; // Ajusta aquí para reflejar el cambio en el backend
                     option.text = producto.nombre;
                     selectProducto.add(option);
                 });
@@ -82,8 +82,8 @@
             const datosTopico = {
                 titulo: formulario.titulo.value,
                 mensaje: formulario.mensaje.value,
-                productoId: formulario.producto.value, // Ajusta aquí para reflejar el cambio en el backend
-                autorId: formulario.autor_id.value
+                producto_id: formulario.producto.value, // Ajusta aquí para reflejar el cambio en el backend
+                autor_id: formulario.autor_id.value
             };
 
             try {
