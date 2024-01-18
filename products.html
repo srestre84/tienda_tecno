@@ -115,19 +115,21 @@
         }
 
         // Función para agregar un nuevo producto
-        async function agregarProducto(event) {
-            event.preventDefault();
+      async function agregarProducto(event) {
+    event.preventDefault();
 
-            const nombre = document.getElementById('nombre').value;
-            const categoria = document.getElementById('categoria').value;
+    const nombre = document.getElementById('nombre').value;
+    const categoria = document.getElementById('categoria').value;
 
-            try {
-                // Mostrar productos y categorías después de agregar el producto
-                await mostrarProductosYCategorias();
-            } catch (error) {
-                console.error('Error al agregar producto:', error);
-            }
-        }
+    try {
+        // Esperar a que se completen la obtención y muestra de productos
+        await mostrarProductosYCategorias();
+
+        // Lógica adicional relacionada con el nuevo producto puede ir aquí si es necesario
+    } catch (error) {
+        console.error('Error al agregar producto:', error);
+    }
+}
 
         // Función para redirigir a la página de tópicos
         function verTopicos() {
