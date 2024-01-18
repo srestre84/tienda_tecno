@@ -115,17 +115,27 @@
         }
 
         // Función para agregar un nuevo producto
-      async function agregarProducto(event) {
+    // Función para agregar un nuevo producto
+async function agregarProducto(event) {
     event.preventDefault();
 
     const nombre = document.getElementById('nombre').value;
     const categoria = document.getElementById('categoria').value;
 
     try {
-        // Esperar a que se completen la obtención y muestra de productos
+        // Enviar el nuevo producto al servidor
+        await fetch('http://localhost:8080/productos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nombre, categoria }),
+        });
+
+        // Después de agregar el producto, actualizar la tabla
         await mostrarProductosYCategorias();
 
-        // Lógica adicional relacionada con el nuevo producto puede ir aquí si es necesario
+    
     } catch (error) {
         console.error('Error al agregar producto:', error);
     }
