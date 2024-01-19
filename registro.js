@@ -32,8 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Respuesta del servidor:', data);
 
             if (data.id) {
+                console.log('ID del usuario recibido del servidor:', data.id);
+
                 // Guarda el ID del usuario en algún lugar accesible para usarlo posteriormente
-                console.log('ID del usuario:', data.id); // Agrega esta línea
                 localStorage.setItem('userId', data.id);
             }
 
@@ -66,4 +67,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
 
