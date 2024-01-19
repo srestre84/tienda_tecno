@@ -49,18 +49,19 @@ document.addEventListener('DOMContentLoaded', () => {
             var formData = new FormData(registroForm);
 
             realizarRegistro(formData)
-                .then(data => {
-                    console.log('Registro exitoso. ID del usuario:', data.id);
+            .then(data => {
+    console.log('Tipo de ID del usuario:', typeof data);
 
-                    if (data.id) {
-                        localStorage.setItem('userId', data.id);
-                    }
+    if (typeof data.id === 'number') {
+        localStorage.setItem('userId', data.id);
+    }
 
-                    mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
-                    setTimeout(() => {
-                        window.location.href = 'products.html';
-                    }, 2000);
-                })
+    mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
+    setTimeout(() => {
+        window.location.href = 'products.html';
+    }, 2000);
+})
+
                 .catch(error => {
                     console.error('Error en el registro:', error);
                     // Puedes manejar el error de registro aquí, si es necesario
@@ -75,17 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             realizarLogin(formData)
                 .then(data => {
-                    console.log('Inicio de sesión exitoso. ID del usuario:', data.id);
+                console.log('Tipo de ID del usuario:', typeof data);
 
-                    if (data.id) {
-                        localStorage.setItem('userId', data.id);
-                    }
+               if (typeof data.id === 'number') {
+            localStorage.setItem('userId', data.id);
+                }
 
-                    mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
-                    setTimeout(() => {
-                        window.location.href = 'products.html';
-                    }, 2000);
-                })
+                mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
+           setTimeout(() => {
+        window.location.href = 'products.html';
+    }, 2000);
+})
+
                 .catch(error => {
                     console.error('Error en el inicio de sesión:', error);
                     // Puedes manejar el error de inicio de sesión aquí, si es necesario
