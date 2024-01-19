@@ -5,14 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var backendUrl = "http://localhost:8080";
 
-    function realizarRegistro(formData) {
-        return realizarAccion(formData, 'usuarios');
-    }
-
-    function realizarLogin(formData) {
-        return realizarAccion(formData, 'login');
-    }
-
     function realizarAccion(formData, endpoint) {
         var apiUrl = `${backendUrl}/${endpoint}`;
 
@@ -43,6 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function realizarRegistro(formData) {
+        return realizarAccion(formData, 'usuarios');
+    }
+
+    function realizarLogin(formData) {
+        return realizarAccion(formData, 'login');
+    }
+
     if (registroForm && mensajeDiv) {
         registroForm.addEventListener('submit', event => {
             event.preventDefault();
@@ -51,7 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
             realizarRegistro(formData)
                 .then(data => {
                     console.log('Registro exitoso. ID del usuario:', data.id);
-                    localStorage.setItem('userId', data.id);
+
+                    if (data.id) {
+                        localStorage.setItem('userId', data.id);
+                    }
+
                     mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
                     setTimeout(() => {
                         window.location.href = 'products.html';
@@ -72,7 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
             realizarLogin(formData)
                 .then(data => {
                     console.log('Inicio de sesión exitoso. ID del usuario:', data.id);
-                    localStorage.setItem('userId', data.id);
+
+                    if (data.id) {
+                        localStorage.setItem('userId', data.id);
+                    }
+
                     mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
                     setTimeout(() => {
                         window.location.href = 'products.html';
@@ -85,6 +93,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
 
 
