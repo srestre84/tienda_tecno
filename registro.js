@@ -5,6 +5,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var backendUrl = "http://localhost:8080";
 
+    function realizarRegistro(formData) {
+        return realizarAccion(formData, 'usuarios');
+    }
+
+    function realizarLogin(formData) {
+        return realizarAccion(formData, 'login');
+    }
+
     function realizarAccion(formData, endpoint) {
         var apiUrl = `${backendUrl}/${endpoint}`;
 
@@ -28,24 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return {};
             }
         })
-        .then(data => {
-            console.log('Respuesta del servidor:', data);
-
-            if (data.id) {
-                console.log('ID del usuario recibido del servidor:', data.id);
-
-                // Guarda el ID del usuario en algún lugar accesible para usarlo posteriormente
-                localStorage.setItem('userId', data.id);
-            }
-
-            mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
-            setTimeout(() => {
-                window.location.href = 'products.html';
-            }, 2000);
-        })
         .catch(error => {
             console.error('Error en la solicitud:', error);
             mensajeDiv.textContent = `Error en la conexión con el servidor. Detalles: ${error.message} (${endpoint}).`;
+            throw error; // Propaga el error para manejarlo en el nivel superior
         });
     }
 
@@ -53,7 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
         registroForm.addEventListener('submit', event => {
             event.preventDefault();
             var formData = new FormData(registroForm);
-            realizarAccion(formData, 'usuarios');
+
+            realizarRegistro(formData)
+                .then(data => {
+                    console.log('Registro exitoso. ID del usuario:', data.id);
+                    localStorage.setItem('userId', data.id);
+                    mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
+                    setTimeout(() => {
+                        window.location.href = 'products.html';
+                    }, 2000);
+                })
+                .catch(error => {
+                    console.error('Error en el registro:', error);
+                    // Puedes manejar el error de registro aquí, si es necesario
+                });
         });
     }
 
@@ -61,11 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', event => {
             event.preventDefault();
             var formData = new FormData(loginForm);
-            realizarAccion(formData, 'login').then(() => {
-                // Agregar aquí el código para redirigir o realizar otras acciones después del inicio de sesión.
-            });
+
+            realizarLogin(formData)
+                .then(data => {
+                    console.log('Inicio de sesión exitoso. ID del usuario:', data.id);
+                    localStorage.setItem('userId', data.id);
+                    mensajeDiv.textContent = 'Solicitud exitosa. Redirigiendo...';
+                    setTimeout(() => {
+                        window.location.href = 'products.html';
+                    }, 2000);
+                })
+                .catch(error => {
+                    console.error('Error en el inicio de sesión:', error);
+                    // Puedes manejar el error de inicio de sesión aquí, si es necesario
+                });
         });
     }
 });
+
 
 
