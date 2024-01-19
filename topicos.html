@@ -33,9 +33,6 @@
                 <!-- Las opciones se cargarán dinámicamente con JavaScript -->
             </select>
 
-            <!-- Campo oculto para almacenar el autor_id -->
-            <input type="hidden" id="autor_id" name="autor_id">
-
             <button type="button" onclick="crearTopico()">Crear Tópico</button>
         </form>
     </div>
@@ -64,14 +61,6 @@
                     selectProducto.add(option);
                 });
 
-                // Recupera el autor_id almacenado en localStorage
-                const userId = localStorage.getItem('userId');
-                if (userId) {
-                    document.getElementById('autor_id').value = userId;
-                } else {
-                    console.error('No se encontró el autor_id en localStorage.');
-                }
-
             } catch (error) {
                 console.error('Error al cargar productos:', error);
             }
@@ -83,7 +72,7 @@
                 titulo: formulario.titulo.value,
                 mensaje: formulario.mensaje.value,
                 producto_id: formulario.producto.value, // Ajusta aquí para reflejar el cambio en el backend
-                autor_id: formulario.autor_id.value
+                autor_id: localStorage.getItem('userId') // Utiliza directamente el userId desde el localStorage
             };
 
             try {
@@ -114,3 +103,4 @@
 </body>
 
 </html>
+
