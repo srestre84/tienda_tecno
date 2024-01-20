@@ -100,13 +100,7 @@
         </form>
     </div>
 
-    <!-- Contenedor para visualizar los tópicos -->
-    <div id="visualizar-topic-container">
-        <h2>Tópicos Creados</h2>
-        <div id="topicos-container">
-            <!-- Aquí se mostrarán los tópicos creados -->
-        </div>
-    </div>
+
 
     <script>
         async function cargarProductos() {
@@ -137,31 +131,6 @@
             }
         }
 
-        async function cargarTopicos() {
-            try {
-                const respuestaTopicos = await fetch('http://localhost:8080/topicos');
-                const topicos = await respuestaTopicos.json();
-
-                const topicosContainer = document.getElementById('topicos-container');
-                topicosContainer.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos elementos.
-
-                topicos.forEach(topico => {
-                    const divTopico = document.createElement('div');
-                    divTopico.innerHTML = `
-                        <h3>${topico.titulo}</h3>
-                        <p>${topico.mensaje}</p>
-                        <p>Producto asociado: ${topico.producto_nombre}</p>
-                        <hr>
-                    `;
-
-                    topicosContainer.appendChild(divTopico);
-                });
-
-            } catch (error) {
-                console.error('Error al cargar tópicos:', error);
-            }
-        }
-
         async function crearTopico() {
             const formulario = document.getElementById('formulario-topico');
             const datosTopico = {
@@ -186,14 +155,14 @@
 
                 alert('Tópico creado exitosamente.');
                 formulario.reset();
-                cargarTopicos(); // Actualizar la visualización de tópicos
             } catch (error) {
                 console.error('Error al crear el tópico:', error);
+                // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
             }
         }
 
+        // Llamada a la función para cargar productos al cargar la página.
         cargarProductos();
-        cargarTopicos(); // Cargar tópicos al cargar la página
     </script>
 
 </body>
