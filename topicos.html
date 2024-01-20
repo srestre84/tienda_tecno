@@ -7,7 +7,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Tópico</title>
     <style>
-        /* Estilos ... */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #2ecc71;
+        }
+
+        div {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -25,32 +85,49 @@
     <div>
         <h2>Crear Tópico</h2>
         <form id="formulario-topico">
-            <!-- Formulario para crear tópico ... -->
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" required>
+
+            <label for="mensaje">Mensaje:</label>
+            <textarea id="mensaje" name="mensaje" required></textarea>
+
+            <label for="producto">Selecciona un Producto:</label>
+            <select id="producto" name="producto" required>
+                <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+            </select>
+
+            <button type="button" onclick="crearTopico()">Crear Tópico</button>
         </form>
     </div>
 
-    <div id="topicos-container">
-        <!-- Aquí se mostrarán los tópicos creados -->
+    <!-- Contenedor para visualizar los tópicos -->
+    <div id="visualizar-topic-container">
+        <h2>Tópicos Creados</h2>
+        <div id="topicos-container">
+            <!-- Aquí se mostrarán los tópicos creados -->
+        </div>
     </div>
 
     <script>
         async function cargarProductos() {
             try {
+                // Realiza una solicitud al servidor para obtener la lista de productos.
                 const respuestaProductos = await fetch('http://localhost:8080/productos');
                 const productos = await respuestaProductos.json();
 
+                // Muestra la lista de productos en una tabla (puedes personalizar esto según tus necesidades).
                 const productosContainer = document.getElementById('productos-container');
-                const selectProducto = document.getElementById('producto');
-
                 productos.forEach(producto => {
-                    // Mostrar productos en la tabla
                     const row = productosContainer.insertRow();
                     const cell = row.insertCell();
                     cell.textContent = producto.nombre;
+                });
 
-                    // Agregar productos al select del formulario
+                // Carga las opciones para el select.
+                const selectProducto = document.getElementById('producto');
+                productos.forEach(producto => {
                     const option = document.createElement('option');
-                    option.value = producto.id;
+                    option.value = producto.id; // Ajusta aquí para reflejar el cambio en el backend
                     option.text = producto.nombre;
                     selectProducto.add(option);
                 });
@@ -90,8 +167,8 @@
             const datosTopico = {
                 titulo: formulario.titulo.value,
                 mensaje: formulario.mensaje.value,
-                producto_id: formulario.producto.value,
-                autor_id: localStorage.getItem('userId')
+                producto_id: formulario.producto.value, // Ajusta aquí para reflejar el cambio en el backend
+                autor_id: localStorage.getItem('userId') // Utiliza directamente el userId desde el localStorage
             };
 
             try {
@@ -122,4 +199,3 @@
 </body>
 
 </html>
-
