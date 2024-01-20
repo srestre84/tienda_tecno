@@ -7,67 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Tópico</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            color: #333;
-        }
-
-        h1, h2 {
-            color: #2ecc71;
-        }
-
-        div {
-            background-color: #fff;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #2ecc71;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #27ae60;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 16px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
+        /* Estilos ... */
     </style>
 </head>
 
@@ -85,43 +25,32 @@
     <div>
         <h2>Crear Tópico</h2>
         <form id="formulario-topico">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" required>
-
-            <label for="mensaje">Mensaje:</label>
-            <textarea id="mensaje" name="mensaje" required></textarea>
-
-            <label for="producto">Selecciona un Producto:</label>
-            <select id="producto" name="producto" required>
-                <!-- Las opciones se cargarán dinámicamente con JavaScript -->
-            </select>
-
-            <button type="button" onclick="crearTopico()">Crear Tópico</button>
+            <!-- Formulario para crear tópico ... -->
         </form>
     </div>
 
-
+    <div id="topicos-container">
+        <!-- Aquí se mostrarán los tópicos creados -->
+    </div>
 
     <script>
         async function cargarProductos() {
             try {
-                // Realiza una solicitud al servidor para obtener la lista de productos.
                 const respuestaProductos = await fetch('http://localhost:8080/productos');
                 const productos = await respuestaProductos.json();
 
-                // Muestra la lista de productos en una tabla (puedes personalizar esto según tus necesidades).
                 const productosContainer = document.getElementById('productos-container');
+                const selectProducto = document.getElementById('producto');
+
                 productos.forEach(producto => {
+                    // Mostrar productos en la tabla
                     const row = productosContainer.insertRow();
                     const cell = row.insertCell();
                     cell.textContent = producto.nombre;
-                });
 
-                // Carga las opciones para el select.
-                const selectProducto = document.getElementById('producto');
-                productos.forEach(producto => {
+                    // Agregar productos al select del formulario
                     const option = document.createElement('option');
-                    option.value = producto.id; // Ajusta aquí para reflejar el cambio en el backend
+                    option.value = producto.id;
                     option.text = producto.nombre;
                     selectProducto.add(option);
                 });
@@ -131,13 +60,38 @@
             }
         }
 
+        async function cargarTopicos() {
+            try {
+                const respuestaTopicos = await fetch('http://localhost:8080/topicos');
+                const topicos = await respuestaTopicos.json();
+
+                const topicosContainer = document.getElementById('topicos-container');
+                topicosContainer.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos elementos.
+
+                topicos.forEach(topico => {
+                    const divTopico = document.createElement('div');
+                    divTopico.innerHTML = `
+                        <h3>${topico.titulo}</h3>
+                        <p>${topico.mensaje}</p>
+                        <p>Producto asociado: ${topico.producto_nombre}</p>
+                        <hr>
+                    `;
+
+                    topicosContainer.appendChild(divTopico);
+                });
+
+            } catch (error) {
+                console.error('Error al cargar tópicos:', error);
+            }
+        }
+
         async function crearTopico() {
             const formulario = document.getElementById('formulario-topico');
             const datosTopico = {
                 titulo: formulario.titulo.value,
                 mensaje: formulario.mensaje.value,
-                producto_id: formulario.producto.value, // Ajusta aquí para reflejar el cambio en el backend
-                autor_id: localStorage.getItem('userId') // Utiliza directamente el userId desde el localStorage
+                producto_id: formulario.producto.value,
+                autor_id: localStorage.getItem('userId')
             };
 
             try {
@@ -155,14 +109,14 @@
 
                 alert('Tópico creado exitosamente.');
                 formulario.reset();
+                cargarTopicos(); // Actualizar la visualización de tópicos
             } catch (error) {
                 console.error('Error al crear el tópico:', error);
-                // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
             }
         }
 
-        // Llamada a la función para cargar productos al cargar la página.
         cargarProductos();
+        cargarTopicos(); // Cargar tópicos al cargar la página
     </script>
 
 </body>
