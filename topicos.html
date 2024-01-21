@@ -7,67 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Tópico</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            color: #333;
-        }
-
-        h1, h2 {
-            color: #2ecc71;
-        }
-
-        div {
-            background-color: #fff;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #2ecc71;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #27ae60;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 16px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
+        /* Estilos aquí */
     </style>
 </head>
 
@@ -100,7 +40,12 @@
         </form>
     </div>
 
-
+    <div>
+        <h2>Tópicos por Producto</h2>
+        <table id="topicos-por-producto-container">
+            <!-- Aquí se mostrarán los tópicos por producto -->
+        </table>
+    </div>
 
     <script>
         async function cargarProductos() {
@@ -109,7 +54,7 @@
                 const respuestaProductos = await fetch('http://localhost:8080/productos');
                 const productos = await respuestaProductos.json();
 
-                // Muestra la lista de productos en una tabla (puedes personalizar esto según tus necesidades).
+                // Muestra la lista de productos en una tabla.
                 const productosContainer = document.getElementById('productos-container');
                 productos.forEach(producto => {
                     const row = productosContainer.insertRow();
@@ -121,13 +66,45 @@
                 const selectProducto = document.getElementById('producto');
                 productos.forEach(producto => {
                     const option = document.createElement('option');
-                    option.value = producto.id; // Ajusta aquí para reflejar el cambio en el backend
+                    option.value = producto.id;
                     option.text = producto.nombre;
                     selectProducto.add(option);
                 });
 
+                // Llama a la función para cargar tópicos por producto cuando se selecciona un producto.
+                selectProducto.addEventListener('change', cargarTopicosPorProducto);
+
+                // Carga inicial de tópicos por producto para el primer producto.
+                cargarTopicosPorProducto();
+
             } catch (error) {
                 console.error('Error al cargar productos:', error);
+            }
+        }
+
+        async function cargarTopicosPorProducto() {
+            const selectProducto = document.getElementById('producto');
+            const productoSeleccionado = selectProducto.value;
+
+            try {
+                // Realiza una solicitud al servidor para obtener los tópicos asociados al producto seleccionado.
+                const respuestaTopicos = await fetch(`http://localhost:8080/productos/${productoSeleccionado}/topicos`);
+                const topicos = await respuestaTopicos.json();
+
+                // Muestra los tópicos en una tabla.
+                const topicosContainer = document.getElementById('topicos-por-producto-container');
+                topicosContainer.innerHTML = ''; // Limpia el contenido anterior
+
+                topicos.forEach(topico => {
+                    const row = topicosContainer.insertRow();
+                    const cellTitulo = row.insertCell(0);
+                    const cellMensaje = row.insertCell(1);
+                    cellTitulo.textContent = topico.titulo;
+                    cellMensaje.textContent = topico.mensaje;
+                });
+
+            } catch (error) {
+                console.error('Error al cargar tópicos por producto:', error);
             }
         }
 
@@ -136,8 +113,8 @@
             const datosTopico = {
                 titulo: formulario.titulo.value,
                 mensaje: formulario.mensaje.value,
-                producto_id: formulario.producto.value, // Ajusta aquí para reflejar el cambio en el backend
-                autor_id: localStorage.getItem('userId') // Utiliza directamente el userId desde el localStorage
+                producto_id: formulario.producto.value,
+                autor_id: localStorage.getItem('userId')
             };
 
             try {
@@ -155,6 +132,10 @@
 
                 alert('Tópico creado exitosamente.');
                 formulario.reset();
+
+                // Después de crear el tópico, vuelve a cargar los tópicos por producto.
+                cargarTopicosPorProducto();
+
             } catch (error) {
                 console.error('Error al crear el tópico:', error);
                 // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error en la solicitud:', error);
             mensajeDiv.textContent = `Error en la conexión con el servidor. Detalles: ${error.message} (${endpoint}).`;
-            throw error; // Propaga el error para manejarlo en el nivel superior
+            throw error; 
         });
     }
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 .catch(error => {
                     console.error('Error en el registro:', error);
-                    // Puedes manejar el error de registro aquí, si es necesario
+                   
                 });
         });
     }
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 .catch(error => {
                     console.error('Error en el inicio de sesión:', error);
-                    // Puedes manejar el error de inicio de sesión aquí, si es necesario
+          
                 });
         });
     }
