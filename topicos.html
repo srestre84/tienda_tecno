@@ -56,18 +56,6 @@
         button:hover {
             background-color: #27ae60;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 16px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
     </style>
 </head>
 
@@ -76,9 +64,9 @@
     <h1>Crear Tópico</h1>
 
     <div>
-        <h2>Tópicos Registrados</h2>
-        <table id="topicos-container">
-            <!-- Aquí se mostrarán todos los tópicos -->
+        <h2>Productos Registrados</h2>
+        <table id="productos-container">
+            <!-- Aquí se mostrarán los productos -->
         </table>
     </div>
 
@@ -91,31 +79,41 @@
             <label for="mensaje">Mensaje:</label>
             <textarea id="mensaje" name="mensaje" required></textarea>
 
+            <label for="producto">Selecciona un Producto:</label>
+            <select id="producto" name="producto" required>
+                <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+            </select>
+
             <button type="button" onclick="crearTopico()">Crear Tópico</button>
         </form>
     </div>
 
     <script>
-        async function cargarTopicos() {
+        async function cargarProductos() {
             try {
-                // Realiza una solicitud al servidor para obtener la lista de todos los tópicos.
-                const respuestaTopicos = await fetch('http://localhost:8080/topicos');
-                const topicos = await respuestaTopicos.json();
+                // Realiza una solicitud al servidor para obtener la lista de productos.
+                const respuestaProductos = await fetch('http://localhost:8080/productos');
+                const productos = await respuestaProductos.json();
 
-                // Muestra los tópicos en una tabla.
-                const topicosContainer = document.getElementById('topicos-container');
-                topicosContainer.innerHTML = ''; // Limpia el contenido anterior
+                // Muestra la lista de productos en una tabla.
+                const productosContainer = document.getElementById('productos-container');
+                productos.forEach(producto => {
+                    const row = productosContainer.insertRow();
+                    const cell = row.insertCell();
+                    cell.textContent = producto.nombre;
+                });
 
-                topicos.forEach(topico => {
-                    const row = topicosContainer.insertRow();
-                    const cellTitulo = row.insertCell(0);
-                    const cellMensaje = row.insertCell(1);
-                    cellTitulo.textContent = topico.titulo;
-                    cellMensaje.textContent = topico.mensaje;
+                // Carga las opciones para el select.
+                const selectProducto = document.getElementById('producto');
+                productos.forEach(producto => {
+                    const option = document.createElement('option');
+                    option.value = producto.id;
+                    option.text = producto.nombre;
+                    selectProducto.add(option);
                 });
 
             } catch (error) {
-                console.error('Error al cargar tópicos:', error);
+                console.error('Error al cargar productos:', error);
             }
         }
 
@@ -124,6 +122,7 @@
             const datosTopico = {
                 titulo: formulario.titulo.value,
                 mensaje: formulario.mensaje.value,
+                producto_id: formulario.producto.value,
                 autor_id: localStorage.getItem('userId')
             };
 
@@ -143,17 +142,14 @@
                 alert('Tópico creado exitosamente.');
                 formulario.reset();
 
-                // Después de crear el tópico, vuelve a cargar todos los tópicos.
-                cargarTopicos();
-
             } catch (error) {
                 console.error('Error al crear el tópico:', error);
                 // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
             }
         }
 
-        // Llamada a la función para cargar todos los tópicos al cargar la página.
-        cargarTopicos();
+        // Llamada a la función para cargar productos al cargar la página.
+        cargarProductos();
     </script>
 
 </body>
