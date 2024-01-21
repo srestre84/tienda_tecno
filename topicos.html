@@ -88,6 +88,11 @@
         </form>
     </div>
 
+    <!-- Botón para ir a la página de respuestas -->
+    <div>
+        <button onclick="irARespuestas()">Ir a Respuestas</button>
+    </div>
+
     <script>
         async function cargarProductos() {
             try {
@@ -146,6 +151,12 @@
                 console.error('Error al crear el tópico:', error);
                 // Manejar el error de manera adecuada, por ejemplo, mostrar un mensaje al usuario.
             }
+        }
+
+        // Nueva función para ir a la página de respuestas
+        function irARespuestas() {
+            // Redirigir a la página de respuestas
+            window.location.href = 'respuestas.html';
         }
 
         // Llamada a la función para cargar productos al cargar la página.

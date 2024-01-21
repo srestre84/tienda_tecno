@@ -74,8 +74,8 @@
 
         <!-- Mensaje y botón para ver tópicos -->
         <div>
-            <p>Después de agregar el producto o verificar que ya existe, continúa dando click en el botón para ver tópicos.</p>
-            <button id="ver-topicos" onclick="verTopicos()">Ver Tópicos</button>
+            <p>Después de agregar el producto o verificar que ya existe, continúa dando click en el botón para crear tópicos.</p>
+            <button id="crear-topicos" onclick="crearTopicos()">Crear Tópicos</button>
         </div>
 
     </div>
@@ -115,35 +115,33 @@
         }
 
         // Función para agregar un nuevo producto
+        async function agregarProducto(event) {
+            event.preventDefault();
 
-async function agregarProducto(event) {
-    event.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const categoria = document.getElementById('categoria').value;
 
-    const nombre = document.getElementById('nombre').value;
-    const categoria = document.getElementById('categoria').value;
+            try {
+                // Enviar el nuevo producto al servidor
+                await fetch('http://localhost:8080/productos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nombre, categoria }),
+                });
 
-    try {
-        // Enviar el nuevo producto al servidor
-        await fetch('http://localhost:8080/productos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ nombre, categoria }),
-        });
+                // Después de agregar el producto, actualizar la tabla
+                await mostrarProductosYCategorias();
 
-        // Después de agregar el producto, actualizar la tabla
-        await mostrarProductosYCategorias();
+            } catch (error) {
+                console.error('Error al agregar producto:', error);
+            }
+        }
 
-    
-    } catch (error) {
-        console.error('Error al agregar producto:', error);
-    }
-}
-
-        // Función para redirigir a la página de tópicos
-        function verTopicos() {
-            // Redirigir a la página de tópicos
+        // Función para redirigir a la página de tópicos (anteriormente llamada crearTopicos)
+        function crearTopicos() {
+            // Redirigir a la página de crear tópicos
             window.location.href = 'topicos.html';
         }
 
@@ -158,7 +156,6 @@ async function agregarProducto(event) {
 </body>
 
 </html>
-
 
     
 

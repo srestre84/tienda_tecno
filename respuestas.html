@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro - Respuestas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #2ecc71;
+        }
+
+        div {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Foro - Respuestas</h1>
+
+    <div>
+        <h2>Seleccionar Tópico</h2>
+        <form id="formulario-respuesta">
+            <label for="topico">Selecciona un Tópico:</label>
+            <select id="topico" name="topico" required>
+                <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+            </select>
+
+            <label for="mensajeRespuesta">Respuesta:</label>
+            <textarea id="mensajeRespuesta" name="mensajeRespuesta" required></textarea>
+
+            <button type="button" onclick="responderTopico()">Responder al Tópico</button>
+        </form>
+    </div>
+
+    <script>
+        async function cargarTopicos() {
+            try {
+                // Realiza una solicitud al servidor para obtener la lista de todos los tópicos.
+                const respuestaTopicos = await fetch('http://localhost:8080/topicos');
+                const topicos = await respuestaTopicos.json();
+
+                // Carga las opciones para el select.
+                const selectTopico = document.getElementById('topico');
+                topicos.forEach(topico => {
+                    const option = document.createElement('option');
+                    option.value = topico.id;
+                    option.text = topico.titulo;
+                    selectTopico.add(option);
+                });
+            } catch (error) {
+                console.error('Error al cargar tópicos:', error);
+            }
+        }
+
+        async function responderTopico() {
+            const formulario = document.getElementById('formulario-respuesta');
+
+            // Obtén el autor_id almacenado en localStorage
+            const autor_id = localStorage.getItem('userId');
+
+            const datosRespuesta = {
+                mensaje: formulario.mensajeRespuesta.value,
+                topico_id: formulario.topico.value,
+                autor_id: autor_id
+            };
+
+            try {
+                // Realiza una solicitud al servidor para responder al tópico seleccionado.
+                const respuesta = await fetch('http://localhost:8080/respuestas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datosRespuesta)
+                });
+
+                if (!respuesta.ok) {
+                    throw new Error(`Error al responder al tópico. Código de estado: ${respuesta.status}`);
+                }
+
+                alert('Respuesta enviada exitosamente.');
+                formulario.reset();
+            } catch (error) {
+                console.error('Error al responder al tópico:', error);
+            }
+        }
+
+        // Llamada a la función para cargar todos los tópicos al cargar la página.
+        cargarTopicos();
+    </script>
+
+</body>
+
+</html>
