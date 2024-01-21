@@ -95,6 +95,7 @@
         topicos.forEach(topico => {
             const option = document.createElement('option');
             option.value = topico.id;
+            option.title = topico.mensaje;
             option.text = topico.titulo;
             selectTopico.add(option);
         });
