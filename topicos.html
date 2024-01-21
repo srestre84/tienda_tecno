@@ -76,9 +76,9 @@
     <h1>Crear Tópico</h1>
 
     <div>
-        <h2>Productos Registrados</h2>
-        <table id="productos-container">
-            <!-- Aquí se mostrarán los productos -->
+        <h2>Tópicos Registrados</h2>
+        <table id="topicos-container">
+            <!-- Aquí se mostrarán todos los tópicos -->
         </table>
     </div>
 
@@ -91,68 +91,19 @@
             <label for="mensaje">Mensaje:</label>
             <textarea id="mensaje" name="mensaje" required></textarea>
 
-            <label for="producto">Selecciona un Producto:</label>
-            <select id="producto" name="producto" required>
-                <!-- Las opciones se cargarán dinámicamente con JavaScript -->
-            </select>
-
             <button type="button" onclick="crearTopico()">Crear Tópico</button>
         </form>
     </div>
 
-    <div>
-        <h2>Tópicos por Producto</h2>
-        <table id="topicos-por-producto-container">
-            <!-- Aquí se mostrarán los tópicos por producto -->
-        </table>
-    </div>
-
     <script>
-        async function cargarProductos() {
+        async function cargarTopicos() {
             try {
-                // Realiza una solicitud al servidor para obtener la lista de productos.
-                const respuestaProductos = await fetch('http://localhost:8080/productos');
-                const productos = await respuestaProductos.json();
-
-                // Muestra la lista de productos en una tabla.
-                const productosContainer = document.getElementById('productos-container');
-                productos.forEach(producto => {
-                    const row = productosContainer.insertRow();
-                    const cell = row.insertCell();
-                    cell.textContent = producto.nombre;
-                });
-
-                // Carga las opciones para el select.
-                const selectProducto = document.getElementById('producto');
-                productos.forEach(producto => {
-                    const option = document.createElement('option');
-                    option.value = producto.id;
-                    option.text = producto.nombre;
-                    selectProducto.add(option);
-                });
-
-                // Llama a la función para cargar tópicos por producto cuando se selecciona un producto.
-                selectProducto.addEventListener('change', cargarTopicosPorProducto);
-
-                // Carga inicial de tópicos por producto para el primer producto.
-                cargarTopicosPorProducto();
-
-            } catch (error) {
-                console.error('Error al cargar productos:', error);
-            }
-        }
-
-        async function cargarTopicosPorProducto() {
-            const selectProducto = document.getElementById('producto');
-            const productoSeleccionado = selectProducto.value;
-
-            try {
-                // Realiza una solicitud al servidor para obtener los tópicos asociados al producto seleccionado.
-                const respuestaTopicos = await fetch(`http://localhost:8080/productos/${productoSeleccionado}/topicos`);
+                // Realiza una solicitud al servidor para obtener la lista de todos los tópicos.
+                const respuestaTopicos = await fetch('http://localhost:8080/topicos');
                 const topicos = await respuestaTopicos.json();
 
                 // Muestra los tópicos en una tabla.
-                const topicosContainer = document.getElementById('topicos-por-producto-container');
+                const topicosContainer = document.getElementById('topicos-container');
                 topicosContainer.innerHTML = ''; // Limpia el contenido anterior
 
                 topicos.forEach(topico => {
@@ -164,7 +115,7 @@
                 });
 
             } catch (error) {
-                console.error('Error al cargar tópicos por producto:', error);
+                console.error('Error al cargar tópicos:', error);
             }
         }
 
@@ -173,7 +124,6 @@
             const datosTopico = {
                 titulo: formulario.titulo.value,
                 mensaje: formulario.mensaje.value,
-                producto_id: formulario.producto.value,
                 autor_id: localStorage.getItem('userId')
             };
 
@@ -193,8 +143,8 @@
                 alert('Tópico creado exitosamente.');
                 formulario.reset();
 
-                // Después de crear el tópico, vuelve a cargar los tópicos por producto.
-                cargarTopicosPorProducto();
+                // Después de crear el tópico, vuelve a cargar todos los tópicos.
+                cargarTopicos();
 
             } catch (error) {
                 console.error('Error al crear el tópico:', error);
@@ -202,8 +152,8 @@
             }
         }
 
-        // Llamada a la función para cargar productos al cargar la página.
-        cargarProductos();
+        // Llamada a la función para cargar todos los tópicos al cargar la página.
+        cargarTopicos();
     </script>
 
 </body>
