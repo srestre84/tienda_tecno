@@ -79,24 +79,30 @@
     </div>
 
     <script>
-        async function cargarTopicos() {
-            try {
-                // Realiza una solicitud al servidor para obtener la lista de todos los tópicos.
-                const respuestaTopicos = await fetch('http://localhost:8080/topicos');
-                const topicos = await respuestaTopicos.json();
+   async function cargarTopicos() {
+    try {
+        // Realiza una solicitud al servidor para obtener la lista de todos los tópicos.
+        const respuestaTopicos = await fetch('http://localhost:8080/topicos');
+        const topicos = await respuestaTopicos.json();
 
-                // Carga las opciones para el select.
-                const selectTopico = document.getElementById('topico');
-                topicos.forEach(topico => {
-                    const option = document.createElement('option');
-                    option.value = topico.id;
-                    option.text = topico.titulo;
-                    selectTopico.add(option);
-                });
-            } catch (error) {
-                console.error('Error al cargar tópicos:', error);
-            }
+        // Verifica si 'topicos' es un array antes de intentar usar forEach.
+        if (!Array.isArray(topicos)) {
+            throw new Error('La respuesta no es un array de tópicos.');
         }
+
+        // Carga las opciones para el select.
+        const selectTopico = document.getElementById('topico');
+        topicos.forEach(topico => {
+            const option = document.createElement('option');
+            option.value = topico.id;
+            option.text = topico.titulo;
+            selectTopico.add(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar tópicos:', error);
+    }
+}
+
 
         async function responderTopico() {
             const formulario = document.getElementById('formulario-respuesta');
